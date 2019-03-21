@@ -8,3 +8,8 @@ dotnet_csproj:
   package_version: '{version}'
 build_script:
   - dotnet build src -c Release
+test:
+  assemblies:
+    only:
+      - Miunie.Core.XUnit.Tests.dll
+      - Miunie.Storage.XUnit.Tests.dll
