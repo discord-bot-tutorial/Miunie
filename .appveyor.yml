@@ -13,3 +13,5 @@ test:
     only:
       - Miunie.Core.XUnit.Tests.dll
       - Miunie.Storage.XUnit.Tests.dll
+test_script:
+  - dotnet test src --test-adapter-path:. --logger:Appveyor
