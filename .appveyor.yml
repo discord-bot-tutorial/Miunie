@@ -8,6 +8,3 @@ dotnet_csproj:
   package_version: '{version}'
 build_script:
   - dotnet build src -c Release
-test_script:
-- ps: >-
-    &('dotnet') ('test', 'src', '--test-adapter-path:.', '--logger:Appveyor')
