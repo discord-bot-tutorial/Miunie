@@ -8,10 +8,5 @@ dotnet_csproj:
   package_version: '{version}'
 build_script:
   - dotnet build src -c Release
-test:
-  assemblies:
-    only:
-      - Miunie.Core.XUnit.Tests.dll
-      - Miunie.Storage.XUnit.Tests.dll
 test_script:
-  - dotnet test src --test-adapter-path:. --logger:Appveyor
+  - dotnet test src
