@@ -24,7 +24,7 @@ namespace Miunie.Core.XUnit.Tests.Providers
             _dateTimeMock.Setup(dt => dt.Now).Returns(DateTime.Now);
             var expectedReputation = _data.Senne.Reputation.Value + 1;
 
-            _reputationProvider.AddReputation(_data.Peter, _data.Senne);
+            _reputationProvider.AddReputation(_data.Peter, _data.Senne, "reason");
 
             Assert.Equal(expectedReputation, _data.Senne.Reputation.Value);
         }
@@ -37,7 +37,7 @@ namespace Miunie.Core.XUnit.Tests.Providers
 
             Assert.False(_reputationProvider.AddReputationHasTimeout(_data.Peter, _data.Senne));
 
-            _reputationProvider.AddReputation(_data.Peter, _data.Senne);
+            _reputationProvider.AddReputation(_data.Peter, _data.Senne, "reason");
 
             Assert.True(_reputationProvider.AddReputationHasTimeout(_data.Peter, _data.Senne));
             Assert.False(_reputationProvider.AddReputationHasTimeout(_data.Senne, _data.Peter));
@@ -50,7 +50,7 @@ namespace Miunie.Core.XUnit.Tests.Providers
             _dateTimeMock.Setup(dt => dt.Now).Returns(DateTime.Now);
             var expectedReputation = _data.Senne.Reputation.Value - 1;
 
-            _reputationProvider.RemoveReputation(_data.Peter, _data.Senne);
+            _reputationProvider.RemoveReputation(_data.Peter, _data.Senne, "reason");
 
             Assert.Equal(expectedReputation, _data.Senne.Reputation.Value);
         }
@@ -63,7 +63,7 @@ namespace Miunie.Core.XUnit.Tests.Providers
 
             Assert.False(_reputationProvider.RemoveReputationHasTimeout(_data.Peter, _data.Senne));
 
-            _reputationProvider.RemoveReputation(_data.Peter, _data.Senne);
+            _reputationProvider.RemoveReputation(_data.Peter, _data.Senne, "reason");
 
             Assert.True(_reputationProvider.RemoveReputationHasTimeout(_data.Peter, _data.Senne));
             Assert.False(_reputationProvider.RemoveReputationHasTimeout(_data.Senne, _data.Peter));
@@ -77,7 +77,12 @@ namespace Miunie.Core.XUnit.Tests.Providers
             var expectedReputation = _data.Senne.Reputation.Value + 1;
 
             _data.Senne.Reputation.Value = expectedReputation;
-            Assert.True(_data.Senne.Reputation.PlusRepLog.TryAdd(_data.Peter.Id, DateTime.Now));
+            var logEntry = new ReputationLogEntry
+            {
+                 Invoker = _data.Peter,
+                 Date = DateTime.Now
+            };
+            _data.Senne.Reputation.PlusLog.Add(logEntry);
 
             _dateTimeMock.Setup(dt => dt.Now).Returns(DateTime.Now.AddHours(1));
 
@@ -93,7 +98,13 @@ namespace Miunie.Core.XUnit.Tests.Providers
             var expectedReputation = _data.Senne.Reputation.Value - 1;
 
             _data.Senne.Reputation.Value = expectedReputation;
-            Assert.True(_data.Senne.Reputation.MinusRepLog.TryAdd(_data.Peter.Id, DateTime.Now));
+            var logEntry = new ReputationLogEntry
+            {
+                Invoker = _data.Peter,
+                Date = DateTime.Now
+            };
+
+            _data.Senne.Reputation.MinusLog.Add(logEntry);
 
             _dateTimeMock.Setup(dt => dt.Now).Returns(DateTime.Now.AddHours(1));
 

@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Concurrent;
+using System.Linq;
+using System.Collections.Generic;
 using Miunie.Core.Infrastructure;
 
 namespace Miunie.Core.Providers
@@ -17,34 +18,51 @@ namespace Miunie.Core.Providers
             _dateTime = dateTime;
         }
 
-        public void AddReputation(MiunieUser invoker, MiunieUser target)
+        public void AddReputation(MiunieUser invoker, MiunieUser target, string reason ="")
         {
             target.Reputation.Value++;
-            target.Reputation.PlusRepLog.TryAdd(invoker.Id, _dateTime.Now);
+            var logEntry = new ReputationLogEntry
+            {
+                Invoker = invoker,
+                Date = _dateTime.Now,
+                Reason = reason,
+                Operation = ReputationOperation.Add
+            };
+            target.Reputation.PlusLog.Add(logEntry);
             _userProvider.StoreUser(target);
         }
 
-        public void RemoveReputation(MiunieUser invoker, MiunieUser target)
+        public void RemoveReputation(MiunieUser invoker, MiunieUser target, string reason = "")
         {
             target.Reputation.Value--;
-            target.Reputation.MinusRepLog.TryAdd(invoker.Id, _dateTime.Now);
+            var logEntry = new ReputationLogEntry
+            {
+                Invoker = invoker,
+                Date = _dateTime.Now,
+                Reason = reason,
+                Operation = ReputationOperation.Remove
+            };
+            target.Reputation.MinusLog.Add(logEntry);
             _userProvider.StoreUser(target);
         }
 
         public bool AddReputationHasTimeout(MiunieUser invoker, MiunieUser target)
-            => HasTimeout(target.Reputation.PlusRepLog, invoker);
+            => HasTimeout(target.Reputation.PlusLog, invoker);
 
         public bool RemoveReputationHasTimeout(MiunieUser invoker, MiunieUser target)
-            => HasTimeout(target.Reputation.MinusRepLog, invoker);
+            => HasTimeout(target.Reputation.MinusLog, invoker);
 
-        private bool HasTimeout(ConcurrentDictionary<ulong, DateTime> log, MiunieUser invoker)
+        private bool HasTimeout(List<ReputationLogEntry> log, MiunieUser invoker)
         {
-            log.TryGetValue(invoker.Id, out var lastRepDateTime);
-
-            if ((_dateTime.Now - lastRepDateTime).TotalSeconds <= TimeoutInSeconds) { return true; }
-
-            log.TryRemove(invoker.Id, out _);
-            _userProvider.StoreUser(invoker);
+            var lastRep = log.LastOrDefault(l => l.Invoker.Id == invoker.Id);
+            if(lastRep is null)
+            {
+                return false;
+            }
+            if ((_dateTime.Now - lastRep.Date).TotalSeconds <= TimeoutInSeconds)
+            {
+                return true;
+            }
             return false;
         }
     }

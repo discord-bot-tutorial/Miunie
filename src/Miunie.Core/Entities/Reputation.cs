@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Miunie.Core
 {
@@ -7,13 +7,13 @@ namespace Miunie.Core
     {
 
         public int Value { get; set; }
-        public ConcurrentDictionary<ulong, DateTime> PlusRepLog { get; set; }
-        public ConcurrentDictionary<ulong, DateTime> MinusRepLog { get; set; }
+        public List<ReputationLogEntry> PlusLog { get; set; }
+        public List<ReputationLogEntry> MinusLog { get; set; }
 
         public Reputation()
         {
-            PlusRepLog = new ConcurrentDictionary<ulong, DateTime>();
-            MinusRepLog = new ConcurrentDictionary<ulong, DateTime>();
+            PlusLog = new List<ReputationLogEntry>();
+            MinusLog = new List<ReputationLogEntry>();
         }
     }
 }
