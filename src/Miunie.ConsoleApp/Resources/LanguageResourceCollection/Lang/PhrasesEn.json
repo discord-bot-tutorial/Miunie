@@ -117,6 +117,24 @@
             "Here it is! https://github.com/discord-bot-tutorial/Miunie",
             "Sure thing, https://github.com/discord-bot-tutorial/Miunie"
         ]
+    },
+    {
+        "Key": "USER_REP_LOG_ENTRY",
+        "Pool": [
+          "{0}Rep received from {1} at {2}. Reason: {3}"
+        ]
+    },
+    {
+      "Key": "USER_REP_LOG_SHOW",
+      "Pool" : [
+        "Latest 5 reputation interactions for {0}:\n---------------------------------------\n{1}"
+      ]
+    },
+    {
+      "Key": "USER_REP_LOG_SHOW_EMPTY",
+      "Pool" : [
+        "{0} haven't reputation interactions yet!"
+      ]
     }
   ]
 }
