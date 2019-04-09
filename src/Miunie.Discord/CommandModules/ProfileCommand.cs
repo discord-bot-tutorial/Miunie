@@ -30,19 +30,26 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("+rep")]
-        public async Task AddReputationAsync(CommandContext ctx, MiunieUser m)
+        public async Task AddReputationAsync(CommandContext ctx, MiunieUser m, [RemainingText] string reason = "")
         {
             var source = _entityConvertor.ConvertUser(ctx.Member);
             var channel = _entityConvertor.ConvertChannel(ctx.Channel);
-            await _profileService.GiveReputationAsync(source, m, channel);
+            await _profileService.GiveReputationAsync(source, m, channel, reason);
         }
 
         [Command("-rep")]
-        public async Task RemoveReputationAsync(CommandContext ctx, MiunieUser m)
+        public async Task RemoveReputationAsync(CommandContext ctx, MiunieUser m, [RemainingText] string reason = "")
         {
             var source = _entityConvertor.ConvertUser(ctx.Member);
             var channel = _entityConvertor.ConvertChannel(ctx.Channel);
-            await _profileService.RemoveReputationAsync(source, m, channel);
+            await _profileService.RemoveReputationAsync(source, m, channel, reason);
+        }
+
+        [Command("repHistory")]
+        public async Task ShowReputationHistoryAsync(CommandContext ctx, MiunieUser target)
+        {
+            var channel = _entityConvertor.ConvertChannel(ctx.Channel);
+            await _profileService.ShowReputationHistoryAsync(target, channel);
         }
 
         [Command("guild")]
