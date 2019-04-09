@@ -33,7 +33,7 @@ namespace Miunie.Core.XUnit.Tests
         [Fact]
         public async Task ShouldCheckForTimeoutBeforeAdding()
         {
-            await _profileService.GiveReputationAsync(_data.Drax, _data.Senne, new MiunieChannel());
+            await _profileService.GiveReputationAsync(_data.Drax, _data.Senne, new MiunieChannel(), "reason");
 
             _repProviderMock.Verify(rp => rp.AddReputationHasTimeout(
                 It.Is<MiunieUser>(_hasDraxId),
@@ -42,14 +42,15 @@ namespace Miunie.Core.XUnit.Tests
 
             _repProviderMock.Verify(rp => rp.AddReputation(
                 It.Is<MiunieUser>(_hasDraxId),
-                It.Is<MiunieUser>(_hasSenneId)
+                It.Is<MiunieUser>(_hasSenneId),
+                "reason"
             ), Times.Once());
         }
 
         [Fact]
         public async Task ShouldNotAddRepToSelf()
         {
-            await _profileService.GiveReputationAsync(_data.Senne, _data.Senne, new MiunieChannel());
+            await _profileService.GiveReputationAsync(_data.Senne, _data.Senne, new MiunieChannel(), "reason");
 
             // NOTE(Peter):
             // Makes sure the service didn't add reputation to self
@@ -60,7 +61,8 @@ namespace Miunie.Core.XUnit.Tests
         [Fact]
         public async Task ShouldCheckForTimeoutBeforeRemoving()
         {
-            await _profileService.RemoveReputationAsync(_data.Drax, _data.Senne, new MiunieChannel());
+            var reason = "reason";
+            await _profileService.RemoveReputationAsync(_data.Drax, _data.Senne, new MiunieChannel(), reason);
 
             _repProviderMock.Verify(rp => rp.RemoveReputationHasTimeout(
                 It.Is<MiunieUser>(_hasDraxId),
@@ -69,14 +71,15 @@ namespace Miunie.Core.XUnit.Tests
 
             _repProviderMock.Verify(rp => rp.RemoveReputation(
                 It.Is<MiunieUser>(_hasDraxId),
-                It.Is<MiunieUser>(_hasSenneId)
+                It.Is<MiunieUser>(_hasSenneId),
+                reason
             ), Times.Once());
         }
 
         [Fact]
         public async Task ShouldNotRemoveRepFromSelf()
         {
-            await _profileService.RemoveReputationAsync(_data.Senne, _data.Senne, new MiunieChannel());
+            await _profileService.RemoveReputationAsync(_data.Senne, _data.Senne, new MiunieChannel(), "reason");
 
             _repProviderMock.VerifyNoOtherCalls();
         }
