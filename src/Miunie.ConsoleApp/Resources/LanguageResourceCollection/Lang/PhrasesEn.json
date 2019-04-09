@@ -127,7 +127,7 @@
     {
       "Key": "USER_REP_LOG_SHOW",
       "Pool" : [
-        "Latest 5 reputation interactions for {0}:\n---------------------------------------\n{1}"
+        "Latest 5 reputation interactions for {0}:\n---------------------------------------"
       ]
     },
     {
