@@ -108,6 +108,15 @@ namespace Miunie.Discord
             await channel.SendMessageAsync(result);
         }
 
+        public async Task SendMessageAsync(MiunieChannel mc, TranslateRequest[] transRequests)
+        {
+            var channel = await _discordClient.GetChannelAsync(mc.ChannelId);
+            var translated = transRequests
+                .Select(r => _lang.GetPhrase(r.PhraseKey.ToString(), r.Parameters));
+            var result = string.Join("\n", translated);
+            await channel.SendMessageAsync(result);
+        }
+
         public async Task<MiunieGuild> FromAsync(MiunieUser user)
         {
             var guild = await _discordClient.GetGuildAsync(user.GuildId);
