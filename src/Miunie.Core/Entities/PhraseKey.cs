@@ -1,4 +1,4 @@
-﻿namespace Miunie.Core
+namespace Miunie.Core
 {
     public enum PhraseKey
     {
@@ -21,7 +21,6 @@
         GUILD_EMBED_NAME_TITLE,
         GUILD_EMBED_STATS_TITLE,
         GUILD_EMBED_ROLES_TITLE,
-        GUILD_EMBED_CREATED_AT_TITLE,
+        GUILD_EMBED_CREATED_AT_TITLE
     }
 }
-
