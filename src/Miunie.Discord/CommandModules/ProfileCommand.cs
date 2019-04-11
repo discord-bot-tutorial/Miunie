@@ -45,7 +45,7 @@ namespace Miunie.Discord.CommandModules
             await _profileService.RemoveReputationAsync(source, m, channel, reason);
         }
 
-        [Command("repHistory")]
+        [Command("repHistory"), Aliases("repLog", "rep")]
         public async Task ShowReputationHistoryAsync(CommandContext ctx, MiunieUser target)
         {
             var channel = _entityConvertor.ConvertChannel(ctx.Channel);
