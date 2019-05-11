@@ -240,5 +240,18 @@ namespace Miunie.Core {
                 return ResourceManager.GetString("USER_EMBED_TITLE", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sure{{OR}}
+        ///I don&apos;t know...{{OR}}
+        ///Nah.
+        /// </summary>
+        public static string YES_NO_MAYBE
+        {
+            get
+            {
+                return ResourceManager.GetString("YES_NO_MAYBE", resourceCulture);
+            }
+        }
     }
 }
