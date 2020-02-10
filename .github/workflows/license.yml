@@ -1,0 +1,13 @@
+name: CI
+
+on: [push]
+
+jobs:
+  license-check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: License Checker
+      uses: kt3k/license_checker@v1.0.1
