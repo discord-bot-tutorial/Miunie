@@ -9,5 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: License Checker fix
+      run: mkdir /root/.deno && ln -s /root/.local /root/.deno
     - name: License Checker
       uses: kt3k/license_checker@v1.0.1
