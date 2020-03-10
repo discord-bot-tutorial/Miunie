@@ -114,18 +114,21 @@ namespace Miunie.Core
 
         public async Task SetUtcOffsetForUserAsync(DateTime userTime, MiunieUser user, MiunieChannel channel)
         {
-            var offset = TimeSpan.FromHours(userTime.Hour - _dateTime.UtcNow.Hour);
-            user.UtcTimeOffset = offset;
-            _users.StoreUser(user);
+            SetUserOffset(user, userTime);
             await _messages.SendMessageAsync(channel, PhraseKey.TIME_NEW_OFFSET_SET);
         }
 
         public async Task SetUtcOffsetForUserByAdminAsync(DateTime userTime, MiunieUser user, MiunieChannel channel)
         {
+            SetUserOffset(user, userTime);
+            await _messages.SendMessageAsync(channel, PhraseKey.TIME_NEW_OFFSET_SET_ADMIN, user.Name);
+        }
+
+        private void SetUserOffset(MiunieUser user, DateTime userTime)
+        {
             var offset = TimeSpan.FromHours(userTime.Hour - _dateTime.UtcNow.Hour);
             user.UtcTimeOffset = offset;
             _users.StoreUser(user);
-            await _messages.SendMessageAsync(channel, PhraseKey.TIME_NEW_OFFSET_SET_ADMIN, user.Name);
         }
     }
 }
