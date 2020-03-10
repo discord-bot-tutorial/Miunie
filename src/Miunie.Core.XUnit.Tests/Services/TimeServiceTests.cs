@@ -84,6 +84,22 @@ namespace Miunie.Core.XUnit.Tests.Services
             AssertNoOtherMessages();
         }
 
+        [Fact]
+        public async Task SettingNewOffsetByAdmin_ShouldSaveAndOutputInfo()
+        {
+            SetCurrentTime(new DateTime(2020, 3, 10, 20, 59, 4));
+            var channel = CreateTestChannel();
+            var user = CreateUserWithoutOffset();
+            var enteredDateTime = new DateTime(1, 1, 1, 22, 0, 0);
+            var expectedOffset = TimeSpan.FromHours(2);
+
+            await _service.SetUtcOffsetForUserByAdminAsync(enteredDateTime, user, channel);
+
+            AssertOffsetChangedByAdminInfoSent(user);
+            AssertUserWithOffsetSaved(expectedOffset);
+            AssertNoOtherMessages();
+        }
+
         private MiunieChannel CreateTestChannel()
         {
             return new MiunieChannel
@@ -114,6 +130,11 @@ namespace Miunie.Core.XUnit.Tests.Services
         private void AssertOffsetChangedInfoSent()
         {
             _messages.Verify(m => m.SendMessageAsync(It.IsAny<MiunieChannel>(), It.Is<PhraseKey>(pk => pk == PhraseKey.TIME_NEW_OFFSET_SET)));
+        }
+
+        private void AssertOffsetChangedByAdminInfoSent(MiunieUser user)
+        {
+            _messages.Verify(m => m.SendMessageAsync(It.IsAny<MiunieChannel>(), It.Is<PhraseKey>(pk => pk == PhraseKey.TIME_NEW_OFFSET_SET_ADMIN), It.Is<string>(s => s == user.Name)));
         }
 
         private void AssertUserWithOffsetSaved(TimeSpan expectedOffset)
