@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 
 namespace Miunie.Discord.CommandModules
 {
+    [Name("Misc")]
     public class MiscCommands : ModuleBase<SocketCommandContext>
     {
         private readonly MiscService _service;
@@ -33,6 +34,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("what do you think?")]
+        [Summary("HELP_WHAT_DO_YOU_THINK")]
         public async Task SendRandomYesNoMaybeAnswer()
         {
             var c = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);

@@ -17,6 +17,7 @@ using Discord;
 using Miunie.Core.Entities;
 using Miunie.Core.Entities.Discord;
 using Miunie.Core.Providers;
+using Miunie.Discord.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,29 +27,21 @@ namespace Miunie.Discord.Embeds
     internal static class EmbedConstructor
     {
         private static readonly int RepLogPageSize = 10;
+        private static readonly uint DefaultEmbedColor = 0xEC407A; // 236, 64, 122
 
-        private static string FormatReputationType(ReputationType type)
-        {
-            switch(type)
-            {
-                case ReputationType.Plus:
-                    return "+1";
-                case ReputationType.Minus:
-                    return "-1";
-                default:
-                    throw new ArgumentException("Unknown ReputationType.");
-            }
-        }
-        
         public static Embed CreateHelpEmbed(HelpResult result)
         {
             EmbedBuilder builder = new EmbedBuilder();
 
             if (!string.IsNullOrWhiteSpace(result.Title))
-                builder.WithTitle(result.Title);
+            {
+                _ = builder.WithTitle(result.Title);
+            }
 
             foreach (HelpSection section in result.Sections)
-                builder.AddField(section.Title, section.Content, false);
+            {
+                _ = builder.AddField(section.Title, section.Content, false);
+            }
 
             return builder.Build();
         }
@@ -58,7 +51,7 @@ namespace Miunie.Discord.Embeds
             var embed = Paginator.PaginateEmbed(
                 entries,
                 new EmbedBuilder()
-                .WithColor(new Color(236, 64, 122))
+                .WithColor(new Color(DefaultEmbedColor))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_REP_LOG_TITLE.ToString())),
                 index,
                 RepLogPageSize,
@@ -77,7 +70,7 @@ namespace Miunie.Discord.Embeds
             var realnessPhrase = lang.GetPhrase((mUser.IsBot ? PhraseKey.USER_EMBED_IS_BOT : PhraseKey.USER_EMBED_IS_HUMAN).ToString());
 
             return new EmbedBuilder()
-                .WithColor(new Color(236, 64, 122))
+                .WithColor(new Color(DefaultEmbedColor))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_TITLE.ToString()))
                 .WithThumbnailUrl(mUser.AvatarUrl)
                 .AddField(lang.GetPhrase(PhraseKey.USER_EMBED_NAME_TITLE.ToString()), mUser.Name)
@@ -92,7 +85,7 @@ namespace Miunie.Discord.Embeds
 
         public static Embed ToEmbed(this MiunieGuild mGuild, ILanguageProvider lang)
             => new EmbedBuilder()
-                .WithColor(new Color(236, 64, 122))
+                .WithColor(new Color(DefaultEmbedColor))
                 .WithThumbnailUrl(mGuild.IconUrl)
                 .WithTitle(lang.GetPhrase(PhraseKey.GUILD_EMBED_TITLE.ToString()))
                 .AddField(lang.GetPhrase(PhraseKey.GUILD_EMBED_NAME_TITLE.ToString()), mGuild.Name)
@@ -102,16 +95,11 @@ namespace Miunie.Discord.Embeds
                 .Build();
 
         private static string FormatReputationType(ReputationType type)
-        {
-            switch (type)
+            => type switch
             {
-                case ReputationType.Plus:
-                    return "+1";
-                case ReputationType.Minus:
-                    return "-1";
-                default:
-                    throw new ArgumentException("Unknown ReputationType.");
-            }
-        }
+                ReputationType.Plus => "+1",
+                ReputationType.Minus => "-1",
+                _ => throw new ArgumentException("Unknown ReputationType.")
+            };
     }
 }

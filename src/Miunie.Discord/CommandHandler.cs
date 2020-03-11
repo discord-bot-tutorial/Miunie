@@ -18,16 +18,12 @@ using Discord.WebSocket;
 using Miunie.Core.Configuration;
 using Miunie.Core.Entities.Discord;
 using Miunie.Core.Logging;
+using Miunie.Core.Providers;
 using Miunie.Discord.Convertors;
 using Miunie.Discord.TypeReaders;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
-using System.Linq;
-using System.Collections.Generic;
-using Miunie.Discord.Attributes;
-using System.Text;
 
 namespace Miunie.Discord
 {
@@ -58,8 +54,8 @@ namespace Miunie.Discord
             _ = await _commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), _services);
         }
 
-        public HelpService GetHelpService()
-            => new HelpService(_commandService);
+        public HelpService GetHelpService(ILanguageProvider lang)
+            => new HelpService(_commandService, lang);
 
         private async Task HandleCommandAsync(SocketMessage s)
         {

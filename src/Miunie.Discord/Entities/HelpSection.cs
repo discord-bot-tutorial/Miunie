@@ -13,21 +13,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
 
-using Discord.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Miunie.Discord
+namespace Miunie.Discord.Entities
 {
-    internal static class CommandInfoExtensions
+    public class HelpSection
     {
-        internal static TAttribute FindAttribute<TAttribute>(this CommandInfo command)
-            where TAttribute : Attribute
-            => command.Attributes.FirstOrDefault(x => x is TAttribute) as TAttribute;
+        public HelpSection(string title, string content)
+        {
+            Title = title;
+            Content = content;
+        }
 
-        internal static IEnumerable<TAttribute> FindAttributes<TAttribute>(this CommandInfo command)
-            where TAttribute : Attribute
-            => command.Attributes.Where(x => x is TAttribute).Select(x => x as TAttribute);
+        public string Title { get; }
+
+        public string Content { get; }
     }
 }

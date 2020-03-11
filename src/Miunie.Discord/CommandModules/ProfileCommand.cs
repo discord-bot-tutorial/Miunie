@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 
 namespace Miunie.Discord.CommandModules
 {
+    [Name("Profile")]
     public class ProfileCommand : ModuleBase<SocketCommandContext>
     {
         private readonly EntityConvertor _entityConvertor;
@@ -34,6 +35,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("profile")]
+        [Summary("HELP_PROFILE")]
         public async Task ShowProfileAsync(MiunieUser user = null)
         {
             if (user is null)
@@ -46,6 +48,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("rep log")]
+        [Summary("HELP_REP_LOG")]
         public async Task ShowReputationLogAsync(int page = 1)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -54,6 +57,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("rep log for")]
+        [Summary("HELP_REP_LOG_FOR")]
         public async Task ShowReputationLogAsync(MiunieUser user, int page = 1)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -62,6 +66,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("+rep")]
+        [Summary("HELP_PLUS_REP")]
         public async Task AddReputationAsync(MiunieUser user)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -70,6 +75,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("-rep")]
+        [Summary("HELP_MINUS_REP")]
         public async Task RemoveReputationAsync(MiunieUser user)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -78,6 +84,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("guild")]
+        [Summary("HELP_GUILD")]
         public async Task ShowGuildInfoAsync()
         {
             var guild = _entityConvertor.ConvertGuild(Context.Guild);

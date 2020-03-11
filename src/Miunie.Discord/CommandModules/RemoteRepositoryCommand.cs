@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 
 namespace Miunie.Discord.CommandModules
 {
+    [Name("Remote Repository")]
     public class RemoteRepositoryCommand : ModuleBase<SocketCommandContext>
     {
         private readonly RemoteRepositoryService _remoteRepoService;
@@ -33,7 +34,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("repo")]
-        [Summary("Shows the official remote repository hosting the code of this bot")]
+        [Summary("HELP_REPO")]
         public async Task ShowRepository()
         {
             var channel = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);

@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 
 namespace Miunie.Discord.CommandModules
 {
+    [Name("Time")]
     public class TimeCommand : ModuleBase<SocketCommandContext>
     {
         private readonly TimeService _service;
@@ -36,6 +37,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("time for")]
+        [Summary("HELP_TIME_FOR")]
         public async Task ShowTimeForUser(MiunieUser user)
         {
             var c = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);
@@ -43,6 +45,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("time for")]
+        [Summary("HELP_TIME_FOR_OFFSET")]
         public async Task ShowTimeForUserWithOffset(MiunieUser user, string verb, int units, string timeframe)
         {
             var c = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);
@@ -50,6 +53,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("time get")]
+        [Summary("HELP_TIME_GET")]
         public async Task ShowTimeForUserComparedToCurrentUser(DateTime requestTime, string verb, MiunieUser user)
         {
             var u = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -58,6 +62,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("time of")]
+        [Summary("HELP_TIME_OF")]
         public async Task ShowTimeForMessage(ulong messageId)
         {
             var m = await Context.Channel.GetMessageAsync(messageId);
@@ -69,6 +74,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("time set")]
+        [Summary("HELP_TIME_SET")]
         public async Task SetMyTimeOffset(DateTime currentTime)
         {
             var u = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -78,6 +84,7 @@ namespace Miunie.Discord.CommandModules
 
         [RequireUserPermission(GuildPermission.Administrator)]
         [Command("time set for")]
+        [Summary("HELP_TIME_SET_FOR")]
         public async Task SetMyTimeOffset(MiunieUser user, DateTime currentTime)
         {
             var c = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);

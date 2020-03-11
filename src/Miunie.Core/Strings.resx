@@ -158,6 +158,22 @@ Source code available at: {1}</value>
     <value>**ABOUT THIS SERVER**</value>
     <comment>No formatting options.</comment>
   </data>
+  <data name="HELP_EXAMPLE_EMPTY" xml:space="preserve">
+    <value>No examples were provided.</value>
+    <comment>No formatting options.</comment>
+  </data>
+  <data name="HELP_EXAMPLE_TITLE" xml:space="preserve">
+    <value>**Examples**: </value>
+    <comment>No formatting options.</comment>
+  </data>
+  <data name="HELP_SUMMARY_EMPTY" xml:space="preserve">
+    <value>No summary was provided.</value>
+    <comment>No formatting options.</comment>
+  </data>
+  <data name="HELP_SUMMARY_TITLE" xml:space="preserve">
+    <value>**Summary**: </value>
+    <comment>No formatting options.</comment>
+  </data>
   <data name="INCORRECT_VERB" xml:space="preserve">
     <value>You better start making sense with other than '{0}'{{OR}}
 Come again, I don't understand '{0}'{{OR}}
@@ -256,6 +272,10 @@ What are you trying to say with {0} {1}</value>
   </data>
   <data name="USER_EMBED_CREATED_AT_TITLE" xml:space="preserve">
     <value>:calendar_spiral: Creation date</value>
+    <comment>No formatting options.</comment>
+  </data>
+  <data name="USER_EMBED_HELP_TITLE" xml:space="preserve">
+    <value>**HELP MENU**</value>
     <comment>No formatting options.</comment>
   </data>
   <data name="USER_EMBED_IS_BOT" xml:space="preserve">
