@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <CodeAnalysisRuleSet>../.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

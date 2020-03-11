@@ -28,58 +28,36 @@ using System.Threading.Tasks;
 
 namespace Miunie.Discord
 {
-    public class HelpService
+    public class HelpCommandProvider
     {
         private readonly CommandService _commandService;
         private readonly ILanguageProvider _lang;
 
-        public HelpService(CommandService commandService, ILanguageProvider lang)
+        public HelpCommandProvider(CommandService commandService, ILanguageProvider lang)
         {
             _commandService = commandService;
             _lang = lang;
         }
 
         public HelpResult GetDefault()
-        {
-            HelpResult entry = new HelpResult
+            => new HelpResult
             {
-                Title = _lang.GetPhrase(PhraseKey.USER_EMBED_HELP_TITLE.ToString())
+                Title = _lang.GetPhrase(PhraseKey.USER_EMBED_HELP_TITLE.ToString()),
+                Sections = GetAllModuleSections()
             };
-
-            foreach (ModuleInfo module in _commandService.Modules)
-            {
-                string title = module.Name;
-                string content = string.Join(" ", module.Commands
-                    .GroupBy(x => x.Name)
-                    .Select(x => $"`{x.Key}`"));
-
-                entry.Sections.Add(new HelpSection(title, content));
-            }
-
-            return entry;
-        }
 
         public HelpResult Search(string input)
         {
-            HelpResult entry = new HelpResult();
-
+            var sections = new List<HelpSection>();
             foreach (CommandInfo command in GetCommands(input))
             {
-                string title = GetSectionTitle(command);
-                string summary = GetSummary(command);
-                string examples = GetExamples(command);
-
-                StringBuilder content = new StringBuilder();
-
-                _ = content.Append(_lang.GetPhrase(PhraseKey.HELP_SUMMARY_TITLE.ToString()))
-                    .AppendLine(summary)
-                    .Append(_lang.GetPhrase(PhraseKey.HELP_EXAMPLE_TITLE.ToString()))
-                    .Append(examples);
-
-                entry.Sections.Add(new HelpSection(title, content.ToString()));
+                sections.Add(GetSection(command));
             }
 
-            return entry;
+            return new HelpResult()
+            {
+                Sections = sections
+            };
         }
 
         public async Task ShowDefaultHelpAsync(ISocketMessageChannel channel)
@@ -100,6 +78,38 @@ namespace Miunie.Discord
             return result.Commands.Select(x => x.Command);
         }
 
+        private IEnumerable<HelpSection> GetAllModuleSections()
+        {
+            var sections = new List<HelpSection>();
+            foreach (ModuleInfo module in _commandService.Modules)
+            {
+                sections.Add(GetSection(module));
+            }
+
+            return sections;
+        }
+
+        private HelpSection GetSection(ModuleInfo module)
+        => new HelpSection(module.Name, string.Join(" ", module.Commands
+            .GroupBy(x => x.Name)
+            .Select(x => $"`{x.Key}`")));
+
+        private HelpSection GetSection(CommandInfo command)
+        {
+            string title = GetSectionTitle(command);
+            string summary = GetSummary(command);
+            string examples = GetExamples(command);
+
+            var content = new StringBuilder();
+
+            _ = content.Append(_lang.GetPhrase(PhraseKey.HELP_SUMMARY_TITLE.ToString()))
+                .AppendLine(summary)
+                .Append(_lang.GetPhrase(PhraseKey.HELP_EXAMPLE_TITLE.ToString()))
+                .Append(examples);
+
+            return new HelpSection(title, content.ToString());
+        }
+
         private string GetSectionTitle(CommandInfo command)
             => $"{command.Name} {GetSectionParameters(command)}";
 
@@ -109,21 +119,10 @@ namespace Miunie.Discord
                 .Select(x => x.IsOptional ? $"[{x.Name}]" : $"<{x.Name}>"));
 
         private string GetExamples(CommandInfo command)
-        {
-            string[] examples = command.FindAttribute<ExamplesAttribute>()?.Examples;
-
-            return examples != null
-                ? string.Join(", ", examples.Select(x => $"`{x}`"))
-                : _lang.GetPhrase(PhraseKey.HELP_EXAMPLE_EMPTY.ToString());
-        }
-
-        private string FindSummary(string id)
-            => id != null
-            ? HelpStrings.ResourceManager.GetString(id)
-            : null;
+            => command.FindAttribute<ExamplesAttribute>()?.Examples
+                .StringJoinOrDefault(x => $"`{x}`", ", ", _lang.GetPhrase(PhraseKey.HELP_EXAMPLE_EMPTY.ToString()));
 
         private string GetSummary(CommandInfo command)
-            => FindSummary(command.Summary)
-            ?? _lang.GetPhrase(PhraseKey.HELP_SUMMARY_EMPTY.ToString());
+            => command.Summary.ValueOrDefault(_lang.GetPhrase(PhraseKey.HELP_SUMMARY_EMPTY.ToString()));
     }
 }

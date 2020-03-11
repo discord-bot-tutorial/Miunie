@@ -13,14 +13,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Miunie.Discord.Entities
+namespace Miunie.Discord
 {
-    public class HelpResult
+    internal static class TExtensions
     {
-        public string Title { get; set; }
-
-        public IEnumerable<HelpSection> Sections { get; set; }
+        internal static string StringJoinOrDefault<T>(
+            this IEnumerable<T> values,
+            Func<T, string> formatter,
+            string separator,
+            string fallback = "")
+            => values?.Count() > 0
+            ? string.Join(separator, values.Select(x => formatter.Invoke(x)))
+            : fallback ?? string.Empty;
     }
 }

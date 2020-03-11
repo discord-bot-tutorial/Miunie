@@ -17,6 +17,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Miunie.Core;
 using Miunie.Core.Entities.Discord;
+using Miunie.Discord.Attributes;
 using Miunie.Discord.Convertors;
 using System.Threading.Tasks;
 
@@ -35,7 +36,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("profile")]
-        [Summary("HELP_PROFILE")]
+        [Summary("Pull up a dank profile!")]
+        [Examples("profile", "profile @Miunie")]
         public async Task ShowProfileAsync(MiunieUser user = null)
         {
             if (user is null)
@@ -48,7 +50,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("rep log")]
-        [Summary("HELP_REP_LOG")]
+        [Summary("Pull up your current reputation log~")]
+        [Examples("rep log", "rep log 1")]
         public async Task ShowReputationLogAsync(int page = 1)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -57,7 +60,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("rep log for")]
-        [Summary("HELP_REP_LOG_FOR")]
+        [Summary("Pull up a reputation log for the specified user!")]
+        [Examples("rep log for @Miunie", "rep log for @Mackie 1")]
         public async Task ShowReputationLogAsync(MiunieUser user, int page = 1)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -66,7 +70,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("+rep")]
-        [Summary("HELP_PLUS_REP")]
+        [Summary("Give a good ol' positive reputation for a user!")]
+        [Examples("+rep @Miunie")]
         public async Task AddReputationAsync(MiunieUser user)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -75,7 +80,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("-rep")]
-        [Summary("HELP_MINUS_REP")]
+        [Summary("Give a cold-blooded negative reputation for a user...")]
+        [Examples("-rep @You")]
         public async Task RemoveReputationAsync(MiunieUser user)
         {
             var source = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
@@ -84,7 +90,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("guild")]
-        [Summary("HELP_GUILD")]
+        [Summary("Pull up information about this guild.")]
+        [Examples("guild")]
         public async Task ShowGuildInfoAsync()
         {
             var guild = _entityConvertor.ConvertGuild(Context.Guild);

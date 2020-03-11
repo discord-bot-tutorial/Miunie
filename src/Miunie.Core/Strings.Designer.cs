@@ -132,7 +132,11 @@ namespace Miunie.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No examples were provided..
+        ///   Looks up a localized string similar to You&apos;ll figure it out.{{OR}}
+        ///You know what? I&apos;ve never used this command.{{OR}}
+        ///Yeah, you&apos;re on your own with this one, buddy.{{OR}}
+        ///I got nothing here.{{OR}}
+        ///Just mess around with this, you&apos;ll figure it out eventually..
         /// </summary>
         public static string HELP_EXAMPLE_EMPTY {
             get {
@@ -150,7 +154,9 @@ namespace Miunie.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No summary was provided..
+        ///   Looks up a localized string similar to This is kind of difficult to explain...{{OR}}
+        ///How am I supposed to put this into words?{{OR}}
+        ///It&apos;s a command, I think? Not sure..
         /// </summary>
         public static string HELP_SUMMARY_EMPTY {
             get {

@@ -27,11 +27,11 @@ namespace Miunie.Discord.Embeds
     internal static class EmbedConstructor
     {
         private static readonly int RepLogPageSize = 10;
-        private static readonly uint DefaultEmbedColor = 0xEC407A; // 236, 64, 122
+        private static readonly uint MiuniePinkColor = 0xEC407A;
 
         public static Embed CreateHelpEmbed(HelpResult result)
         {
-            EmbedBuilder builder = new EmbedBuilder();
+            EmbedBuilder builder = new EmbedBuilder().WithColor(MiuniePinkColor);
 
             if (!string.IsNullOrWhiteSpace(result.Title))
             {
@@ -51,7 +51,7 @@ namespace Miunie.Discord.Embeds
             var embed = Paginator.PaginateEmbed(
                 entries,
                 new EmbedBuilder()
-                .WithColor(new Color(DefaultEmbedColor))
+                .WithColor(new Color(MiuniePinkColor))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_REP_LOG_TITLE.ToString())),
                 index,
                 RepLogPageSize,
@@ -70,7 +70,7 @@ namespace Miunie.Discord.Embeds
             var realnessPhrase = lang.GetPhrase((mUser.IsBot ? PhraseKey.USER_EMBED_IS_BOT : PhraseKey.USER_EMBED_IS_HUMAN).ToString());
 
             return new EmbedBuilder()
-                .WithColor(new Color(DefaultEmbedColor))
+                .WithColor(new Color(MiuniePinkColor))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_TITLE.ToString()))
                 .WithThumbnailUrl(mUser.AvatarUrl)
                 .AddField(lang.GetPhrase(PhraseKey.USER_EMBED_NAME_TITLE.ToString()), mUser.Name)
@@ -85,7 +85,7 @@ namespace Miunie.Discord.Embeds
 
         public static Embed ToEmbed(this MiunieGuild mGuild, ILanguageProvider lang)
             => new EmbedBuilder()
-                .WithColor(new Color(DefaultEmbedColor))
+                .WithColor(new Color(MiuniePinkColor))
                 .WithThumbnailUrl(mGuild.IconUrl)
                 .WithTitle(lang.GetPhrase(PhraseKey.GUILD_EMBED_TITLE.ToString()))
                 .AddField(lang.GetPhrase(PhraseKey.GUILD_EMBED_NAME_TITLE.ToString()), mGuild.Name)

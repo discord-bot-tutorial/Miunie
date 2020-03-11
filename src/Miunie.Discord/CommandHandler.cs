@@ -54,8 +54,8 @@ namespace Miunie.Discord
             _ = await _commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), _services);
         }
 
-        public HelpService GetHelpService(ILanguageProvider lang)
-            => new HelpService(_commandService, lang);
+        public HelpCommandProvider GetHelpProvider(ILanguageProvider lang)
+            => new HelpCommandProvider(_commandService, lang);
 
         private async Task HandleCommandAsync(SocketMessage s)
         {

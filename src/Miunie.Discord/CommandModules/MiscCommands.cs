@@ -16,6 +16,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Miunie.Core;
+using Miunie.Discord.Attributes;
 using Miunie.Discord.Convertors;
 using System.Threading.Tasks;
 
@@ -34,7 +35,8 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("what do you think?")]
-        [Summary("HELP_WHAT_DO_YOU_THINK")]
+        [Summary("What do I think? I guess you'll have to find out~")]
+        [Examples("what do you think?")]
         public async Task SendRandomYesNoMaybeAnswer()
         {
             var c = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);

@@ -15,12 +15,21 @@
 
 using System.Collections.Generic;
 
-namespace Miunie.Discord.Entities
+namespace Miunie.Discord
 {
-    public class HelpResult
+    internal static class StringExtensions
     {
-        public string Title { get; set; }
+        internal static string ValueOrDefault(this string value, string fallback = "")
+            => string.IsNullOrWhiteSpace(value)
+            ? fallback ?? string.Empty
+            : value;
 
-        public IEnumerable<HelpSection> Sections { get; set; }
+        internal static string JoinOrDefault(
+            this IEnumerable<string> values,
+            string separator,
+            string fallback = "")
+            => values?.Length > 0
+            ? string.Join(separator, values)
+            : fallback ?? string.Empty;
     }
 }
