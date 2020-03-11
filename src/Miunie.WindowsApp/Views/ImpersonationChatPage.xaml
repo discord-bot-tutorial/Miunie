@@ -21,15 +21,13 @@
             <ColumnDefinition x:Name="DetailColumn" Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding Channels}" SelectedValue="{Binding SelectedChannel, Mode=TwoWay}" >
+        <ListView ItemsSource="{Binding Channels}" SelectedValue="{Binding SelectedChannel, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="views:TextChannelView">
                     <TextBlock Text="{Binding Name}" Margin="0 0 50 0" MinWidth="100"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-
 
         <Grid Grid.Column="1" Padding="0">
             <Grid.RowDefinitions>
