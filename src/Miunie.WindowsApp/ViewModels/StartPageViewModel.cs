@@ -1,24 +1,20 @@
 ﻿using GalaSoft.MvvmLight;
-using Miunie.Core;
-using Miunie.WindowsApp.Utilities;
+using Miunie.Core.Entities;
+using Miunie.Core.Providers;
+using System;
 
 namespace Miunie.WindowsApp.ViewModels
 {
     public class StartPageViewModel : ViewModelBase
     {
-        public TokenValidator TokenValidator { get; }
+        private readonly ILanguageProvider _lang;
 
-        private readonly MiunieBot _miunie;
-
-        public StartPageViewModel(TokenValidator tokenValidator, MiunieBot miunie)
+        public StartPageViewModel(ILanguageProvider lang)
         {
-            TokenValidator = tokenValidator;
-            _miunie = miunie;
+            _lang = lang;
         }
 
-        internal void ApplyToken(string token)
-        {
-            _miunie.BotConfiguration.DiscordToken = token;
-        }
+        internal string MiunieAboutText =>
+            _lang.GetPhrase(PhraseKey.GPL3_NOTICE.ToString(), DateTime.Now, "https://github.com/control-net/Miunie");
     }
 }

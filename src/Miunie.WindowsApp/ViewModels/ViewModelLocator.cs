@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Miunie.Core;
 using Miunie.Core.Logging;
+using Miunie.Core.Providers;
 using Miunie.WindowsApp.Utilities;
 
 namespace Miunie.WindowsApp.ViewModels
@@ -13,7 +14,6 @@ namespace Miunie.WindowsApp.ViewModels
     {
         public ViewModelLocator()
         {
-
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             if (ViewModelBase.IsInDesignModeStatic)
             {
@@ -29,13 +29,16 @@ namespace Miunie.WindowsApp.ViewModels
             SimpleIoc.Default.Register<StatusPageViewModel>();
             SimpleIoc.Default.Register<SettingsPageViewModel>();
             SimpleIoc.Default.Register<ServersPageViewModel>();
+            SimpleIoc.Default.Register<NotConnectedPageViewModel>();
             SimpleIoc.Default.Register<ImpersonationChatPageViewModel>();
             SimpleIoc.Default.Register(() => ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider));
             SimpleIoc.Default.Register(() => InversionOfControl.Provider.GetRequiredService<ILogReader>());
-            SimpleIoc.Default.Register<TokenValidator>();
+            SimpleIoc.Default.Register(() => InversionOfControl.Provider.GetRequiredService<ILogWriter>());
+            SimpleIoc.Default.Register(() => InversionOfControl.Provider.GetRequiredService<ILanguageProvider>());
+            SimpleIoc.Default.Register<TokenManager>();
         }
 
-        public StartPageViewModel StartPageInstance 
+        public StartPageViewModel StartPageInstance
             => ServiceLocator.Current.GetInstance<StartPageViewModel>();
 
         public StatusPageViewModel StatusPageInstance
@@ -49,5 +52,8 @@ namespace Miunie.WindowsApp.ViewModels
 
         public ImpersonationChatPageViewModel ImpersonationChatPageInstance
             => ServiceLocator.Current.GetInstance<ImpersonationChatPageViewModel>();
+
+        public NotConnectedPageViewModel NotConnectedPageInstance
+            => ServiceLocator.Current.GetInstance<NotConnectedPageViewModel>();
     }
 }

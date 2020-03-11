@@ -1,22 +1,50 @@
-﻿using Miunie.Core;
+﻿// This file is part of Miunie.
+//
+//  Miunie is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Miunie is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
+
+using Discord;
+using Miunie.Core.Discord;
+using Miunie.Core.Entities.Discord;
+using Miunie.Core.Logging;
 using Miunie.Discord.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Miunie.Core.Logging;
-using Discord;
 
 namespace Miunie.Discord
 {
-    public class MiunieDiscord : IMiunieDiscord
+    public class MiunieDiscord : IDiscordConnection
     {
-        public bool UserIsMiunie(MiunieUser user)
-            => user.UserId == _discord.Client?.CurrentUser?.Id;
-        public string GetBotAvatarUrl()
-            => _discord.Client?.CurrentUser?.GetAvatarUrl();
+        private readonly IDiscord _discord;
+        private readonly DiscordLogger _discordLogger;
+        private readonly ILogWriter _logger;
+        private readonly CommandHandler _commandHandler;
+        private Core.Entities.ConnectionState _connectionState;
 
-        private Core.ConnectionState _connectionState;
-        public Core.ConnectionState ConnectionState
+        public MiunieDiscord(IDiscord discord, DiscordLogger discordLogger, ILogWriter logger, CommandHandler commandHandler)
+        {
+            _discord = discord;
+            _discordLogger = discordLogger;
+            _logger = logger;
+            _commandHandler = commandHandler;
+
+            _connectionState = Core.Entities.ConnectionState.DISCONNECTED;
+        }
+
+        public event EventHandler ConnectionChanged;
+
+        public Core.Entities.ConnectionState ConnectionState
         {
             get => _connectionState;
             private set
@@ -26,26 +54,15 @@ namespace Miunie.Discord
             }
         }
 
-        public event EventHandler ConnectionChanged;
+        public bool UserIsMiunie(MiunieUser user)
+            => user.UserId == _discord.Client?.CurrentUser?.Id;
 
-        private readonly IDiscord _discord;
-        private readonly DiscordLogger _discordLogger;
-        private readonly ILogWriter _logger;
-        private readonly CommandHandler _commandHandler;
-
-        public MiunieDiscord(IDiscord discord, DiscordLogger discordLogger, ILogWriter logger, CommandHandler commandHandler)
-        {
-            _discord = discord;
-            _discordLogger = discordLogger;
-            _logger = logger;
-            _commandHandler = commandHandler;
-
-            _connectionState = Core.ConnectionState.DISCONNECTED; 
-        }
+        public string GetBotAvatarUrl()
+            => _discord.Client?.CurrentUser?.GetAvatarUrl();
 
         public async Task RunAsync(CancellationToken cancellationToken)
         {
-            ConnectionState = Core.ConnectionState.CONNECTING;
+            ConnectionState = Core.Entities.ConnectionState.CONNECTING;
 
             try
             {
@@ -68,7 +85,7 @@ namespace Miunie.Discord
             }
             finally
             {
-                ConnectionState = Core.ConnectionState.DISCONNECTED;
+                ConnectionState = Core.Entities.ConnectionState.DISCONNECTED;
             }
         }
 
@@ -78,7 +95,7 @@ namespace Miunie.Discord
 #if DEBUG
             _discord.Client.SetGameAsync("Herself being created.", type: ActivityType.Watching);
 #endif
-            ConnectionState = Core.ConnectionState.CONNECTED;
+            ConnectionState = Core.Entities.ConnectionState.CONNECTED;
             return Task.CompletedTask;
         }
     }

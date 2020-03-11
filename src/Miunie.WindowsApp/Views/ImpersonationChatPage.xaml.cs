@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Miunie.WindowsApp.ViewModels;
+using Miunie.Core;
+using System;
+using Windows.UI.Xaml.Input;
+using System.Linq;
+using CommonServiceLocator;
+using GalaSoft.MvvmLight.Ioc;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,11 +21,22 @@ namespace Miunie.WindowsApp.Views
 
         public ImpersonationChatPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             _vm = DataContext as ImpersonationChatPageViewModel;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e) 
-            => _vm.FetchInfo((ulong)e.Parameter);
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await _vm.FetchInfoAsync((ulong)e.Parameter);
+            _vm.ConfigureMessagesSubscription();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            _vm.CleanupHandlers();
+
+            SimpleIoc.Default.Unregister<ImpersonationChatPageViewModel>();
+            SimpleIoc.Default.Register<ImpersonationChatPageViewModel>();
+        }
     }
 }

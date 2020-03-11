@@ -1,10 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// This file is part of Miunie.
+//
+//  Miunie is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Miunie is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
+
 using Discord.WebSocket;
 using Miunie.Core;
+using Miunie.Core.Discord;
+using Miunie.Core.Entities;
+using Miunie.Core.Entities.Discord;
+using Miunie.Core.Logging;
 using Miunie.Core.Providers;
 using Miunie.Discord.Embeds;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Miunie.Discord.Adapters
 {
@@ -12,11 +30,13 @@ namespace Miunie.Discord.Adapters
     {
         private readonly IDiscord _discord;
         private readonly ILanguageProvider _lang;
+        private readonly ILogWriter _log;
 
-        public DiscordMessagesAdapter(IDiscord discord, ILanguageProvider lang)
+        public DiscordMessagesAdapter(IDiscord discord, ILanguageProvider lang, ILogWriter log)
         {
             _discord = discord;
             _lang = lang;
+            _log = log;
         }
 
         public async Task SendMessageAsync(MiunieChannel mc, IEnumerable<ReputationEntry> repEntries, int index)
@@ -24,47 +44,45 @@ namespace Miunie.Discord.Adapters
             var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
             var embed = EmbedConstructor.CreateReputationLog(repEntries, index, _lang);
 
-            await channel.SendMessageAsync(embed: embed);
+            _ = await channel.SendMessageAsync(embed: embed);
         }
 
         public async Task SendMessageAsync(MiunieChannel mc, PhraseKey phraseKey, params object[] parameters)
         {
             var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
             var msg = _lang.GetPhrase(phraseKey.ToString(), parameters);
-            await channel.SendMessageAsync(msg);
+            _ = await channel.SendMessageAsync(msg);
         }
 
         public async Task SendMessageAsync(MiunieChannel mc, MiunieUser mu)
         {
             var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-            await channel.SendMessageAsync(embed: mu.ToEmbed(_lang));
+
+            if (channel is null)
+            {
+                LogSocketTextChannelCastFailed();
+                return;
+            }
+
+            _ = await channel.SendMessageAsync(embed: mu.ToEmbed(_lang));
         }
 
         public async Task SendMessageAsync(MiunieChannel mc, MiunieGuild mg)
         {
             var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-            await channel.SendMessageAsync(embed: mg.ToEmbed(_lang));
+
+            if (channel is null)
+            {
+                LogSocketTextChannelCastFailed();
+                return;
+            }
+
+            _ = await channel.SendMessageAsync(embed: mg.ToEmbed(_lang));
         }
 
-        public async Task SendMessageAsync(MiunieChannel mc, DirectoryListing dl)
+        private void LogSocketTextChannelCastFailed()
         {
-            var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-            var result = string.Join("\n", dl.Result.Select(s => $":file_folder: {s}"));
-            await channel.SendMessageAsync(result);
-        }
-
-        public async Task SendMessageAsync(MiunieChannel mc, IEnumerable<CurrencyData> tc)
-        {
-            var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-            var result = string.Join("\n", tc.Select(c => $"{c.Amount} {c.Code} = {c.CzechCrowns} CZK"));
-            await channel.SendMessageAsync(result);
-        }
-
-        public async Task SendMessageAsync(MiunieChannel mc, CurrencyConversionResult ccr)
-        {
-            var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-            var result = $"{ccr.FromValue} {ccr.FromCode} = {ccr.ToValue} {ccr.ToCode}";
-            await channel.SendMessageAsync(result);
+            _log.LogError("Invalid cast to SocketTextChannel.");
         }
     }
 }

@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Miunie.WindowsApp.ViewModels;
 using Windows.UI.Xaml.Media.Animation;
@@ -24,7 +12,7 @@ namespace Miunie.WindowsApp.Views
 
         public StatusPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             _vm = DataContext as StatusPageViewModel;
             NavigationCacheMode = NavigationCacheMode.Enabled;
             _vm.AvatarChanged = OnAvatarChanged;
@@ -42,16 +30,16 @@ namespace Miunie.WindowsApp.Views
             };
         }
 
-        private void ActionBtn_OnClick(object sender, RoutedEventArgs e)
+        private void SettingsBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            _vm.ToggleBotStart();
+            _ = Frame.Navigate(typeof(SettingsPage), null);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.SourcePageType == typeof(SettingsPage))
             {
-                ConnectedAnimationService
+                _ = ConnectedAnimationService
                     .GetForCurrentView()
                     .PrepareToAnimate("MiunieStatusToSettings", MiunieAvatar);
             }
@@ -61,7 +49,8 @@ namespace Miunie.WindowsApp.Views
         {
             var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("MiunieSettingsToStatus");
             if (animation is null) { return; }
-            animation.TryStart(MiunieAvatar);
+            _ = animation.TryStart(MiunieAvatar);
+            _vm.RaisePropertyChanged(nameof(_vm.SettingsButtonIsVisable));
         }
     }
 }
