@@ -70,7 +70,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("+rep")]
-        [Summary("Give a good ol' positive reputation for a user!")]
+        [Summary("Give a good ol' positive reputation to a user!")]
         [Examples("+rep @Miunie")]
         public async Task AddReputationAsync(MiunieUser user)
         {
@@ -80,7 +80,7 @@ namespace Miunie.Discord.CommandModules
         }
 
         [Command("-rep")]
-        [Summary("Give a cold-blooded negative reputation for a user...")]
+        [Summary("Give a cold-blooded negative reputation to a user...")]
         [Examples("-rep @You")]
         public async Task RemoveReputationAsync(MiunieUser user)
         {

@@ -43,7 +43,7 @@ namespace Miunie.Discord
             => new HelpResult
             {
                 Title = _lang.GetPhrase(PhraseKey.USER_EMBED_HELP_TITLE.ToString()),
-                Sections = GetAllModuleSections()
+                Sections = _commandService.Modules.Select(x => GetSection(x))
             };
 
         public HelpResult Search(string input)
@@ -78,22 +78,13 @@ namespace Miunie.Discord
             return result.Commands.Select(x => x.Command);
         }
 
-        private IEnumerable<HelpSection> GetAllModuleSections()
-        {
-            var sections = new List<HelpSection>();
-
-            foreach (ModuleInfo module in _commandService.Modules)
-            {
-                sections.Add(GetSection(module));
-            }
-
-            return sections;
-        }
-
         private HelpSection GetSection(ModuleInfo module)
-        => new HelpSection(module.Name, string.Join(" ", module.Commands
-            .GroupBy(x => x.Name)
-            .Select(x => $"`{x.Key}`")));
+            => new HelpSection(module.Name, GetModuleCommandBlocks(module));
+
+        private string GetModuleCommandBlocks(ModuleInfo module)
+            => string.Join(" ", module.Commands
+                .GroupBy(x => x.Name)
+                .Select(x => $"`{x.Key}`"));
 
         private HelpSection GetSection(CommandInfo command)
         {

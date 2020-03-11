@@ -23,11 +23,11 @@ namespace Miunie.Discord.CommandModules
     [Name("Help")]
     public class HelpCommand : ModuleBase<SocketCommandContext>
     {
-        private readonly HelpCommandProvider _helpService;
+        private readonly HelpCommandProvider _helpProvider;
 
         public HelpCommand(CommandHandler commandHandler, ILanguageProvider lang)
         {
-            _helpService = commandHandler.GetHelpProvider(lang);
+            _helpProvider = commandHandler.GetHelpProvider(lang);
         }
 
         [Command("help")]
@@ -35,7 +35,7 @@ namespace Miunie.Discord.CommandModules
         [Examples("help")]
         public async Task GetHelp()
         {
-            await _helpService.ShowDefaultHelpAsync(Context.Channel);
+            await _helpProvider.ShowDefaultHelpAsync(Context.Channel);
         }
 
         [Command("help")]
@@ -43,7 +43,7 @@ namespace Miunie.Discord.CommandModules
         [Examples("help repo")]
         public async Task GetHelp([Remainder]string input)
         {
-            await _helpService.ShowCommandHelpAsync(Context.Channel, input);
+            await _helpProvider.ShowCommandHelpAsync(Context.Channel, input);
         }
     }
 }
