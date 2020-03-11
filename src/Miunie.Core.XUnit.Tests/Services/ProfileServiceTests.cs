@@ -1,6 +1,4 @@
-﻿using Miunie.Core.Logging;
-using Miunie.Core.Providers;
-using Moq;
+﻿using Moq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,7 +12,7 @@ namespace Miunie.Core.XUnit.Tests.Services
         public ProfileServiceTests()
         {
             _msgMock = new Mock<IDiscordMessages>();
-            _profileService = new ProfileService(_msgMock.Object, null, null);
+            _profileService = new ProfileService(_msgMock.Object, null, null, null);
         }
 
         [Fact]
