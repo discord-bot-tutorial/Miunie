@@ -7,6 +7,11 @@ using Miunie.Discord.Convertors;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Discord;
+using System.Linq;
+using System.Collections.Generic;
+using Miunie.Discord.Attributes;
+using System.Text;
 
 namespace Miunie.Discord
 {
@@ -34,6 +39,10 @@ namespace Miunie.Discord
             _discord.Client.MessageReceived += HandleCommandAsync;
             await _commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), _services);
         }
+
+        public HelpService GetHelpService()
+            => new HelpService(_commandService);
+
         private async Task HandleCommandAsync(SocketMessage s)
         {
             if (!(s is SocketUserMessage msg))

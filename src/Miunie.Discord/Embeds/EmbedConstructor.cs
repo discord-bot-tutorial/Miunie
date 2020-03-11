@@ -24,6 +24,19 @@ namespace Miunie.Discord.Embeds
                     throw new ArgumentException("Unknown ReputationType.");
             }
         }
+        
+        public static Embed CreateHelpEmbed(HelpResult result)
+        {
+            EmbedBuilder builder = new EmbedBuilder();
+
+            if (!string.IsNullOrWhiteSpace(result.Title))
+                builder.WithTitle(result.Title);
+
+            foreach (HelpSection section in result.Sections)
+                builder.AddField(section.Title, section.Content, false);
+
+            return builder.Build();
+        }
 
         public static Embed CreateReputationLog(IEnumerable<ReputationEntry> entries, int index, ILanguageProvider lang)
         {
