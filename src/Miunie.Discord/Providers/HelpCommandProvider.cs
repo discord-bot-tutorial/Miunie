@@ -47,18 +47,10 @@ namespace Miunie.Discord
             };
 
         public HelpResult Search(string input)
-        {
-            var sections = new List<HelpSection>();
-            foreach (CommandInfo command in GetCommands(input))
+            => new HelpResult()
             {
-                sections.Add(GetSection(command));
-            }
-
-            return new HelpResult()
-            {
-                Sections = sections
+                Sections = GetCommands(input).Select(x => GetSection(x))
             };
-        }
 
         public async Task ShowDefaultHelpAsync(ISocketMessageChannel channel)
             => await channel.SendMessageAsync(embed: EmbedConstructor.CreateHelpEmbed(GetDefault()));
