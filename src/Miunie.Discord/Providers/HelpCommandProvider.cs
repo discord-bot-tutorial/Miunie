@@ -81,6 +81,7 @@ namespace Miunie.Discord
         private IEnumerable<HelpSection> GetAllModuleSections()
         {
             var sections = new List<HelpSection>();
+
             foreach (ModuleInfo module in _commandService.Modules)
             {
                 sections.Add(GetSection(module));

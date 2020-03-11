@@ -31,7 +31,7 @@ namespace Miunie.Discord.Embeds
 
         public static Embed CreateHelpEmbed(HelpResult result)
         {
-            EmbedBuilder builder = new EmbedBuilder().WithColor(MiuniePinkColor);
+            var builder = new EmbedBuilder().WithColor(MiuniePinkColor);
 
             if (!string.IsNullOrWhiteSpace(result.Title))
             {
