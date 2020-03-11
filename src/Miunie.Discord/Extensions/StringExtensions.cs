@@ -14,6 +14,7 @@
 //  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Miunie.Discord
 {
@@ -28,7 +29,7 @@ namespace Miunie.Discord
             this IEnumerable<string> values,
             string separator,
             string fallback = "")
-            => values?.Length > 0
+            => values?.Count() > 0
             ? string.Join(separator, values)
             : fallback ?? string.Empty;
     }
