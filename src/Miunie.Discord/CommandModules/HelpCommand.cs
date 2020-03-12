@@ -16,6 +16,7 @@
 using Discord.Commands;
 using Miunie.Core.Providers;
 using Miunie.Discord.Attributes;
+using Miunie.Discord.Embeds;
 using System.Threading.Tasks;
 
 namespace Miunie.Discord.CommandModules
@@ -23,11 +24,11 @@ namespace Miunie.Discord.CommandModules
     [Name("Help")]
     public class HelpCommand : ModuleBase<SocketCommandContext>
     {
-        private readonly HelpCommandProvider _helpProvider;
+        private readonly CommandHelpProvider _helpProvider;
 
-        public HelpCommand(CommandHandler commandHandler, ILanguageProvider lang)
+        public HelpCommand(CommandService commandService, ILanguageProvider lang)
         {
-            _helpProvider = commandHandler.GetHelpProvider(lang);
+            _helpProvider = new CommandHelpProvider(commandService, lang);
         }
 
         [Command("help")]
@@ -35,7 +36,8 @@ namespace Miunie.Discord.CommandModules
         [Examples("help")]
         public async Task GetHelp()
         {
-            await _helpProvider.ShowDefaultHelpAsync(Context.Channel);
+            var helpResult = _helpProvider.ForAllCommands();
+            _ = await Context.Channel.SendMessageAsync(embed: EmbedConstructor.CreateHelpEmbed(helpResult));
         }
 
         [Command("help")]
@@ -43,7 +45,8 @@ namespace Miunie.Discord.CommandModules
         [Examples("help repo")]
         public async Task GetHelp([Remainder]string input)
         {
-            await _helpProvider.ShowCommandHelpAsync(Context.Channel, input);
+            var helpResult = _helpProvider.FromInput(input);
+            _ = await Context.Channel.SendMessageAsync(embed: EmbedConstructor.CreateHelpEmbed(helpResult));
         }
     }
 }

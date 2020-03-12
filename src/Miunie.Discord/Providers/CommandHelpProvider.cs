@@ -14,49 +14,40 @@
 //  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
 
 using Discord.Commands;
-using Discord.WebSocket;
 using Miunie.Core.Entities;
 using Miunie.Core.Providers;
 using Miunie.Discord.Attributes;
-using Miunie.Discord.Embeds;
 using Miunie.Discord.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Miunie.Discord
 {
-    public class HelpCommandProvider
+    public class CommandHelpProvider
     {
         private readonly CommandService _commandService;
         private readonly ILanguageProvider _lang;
 
-        public HelpCommandProvider(CommandService commandService, ILanguageProvider lang)
+        public CommandHelpProvider(CommandService commandService, ILanguageProvider lang)
         {
             _commandService = commandService;
             _lang = lang;
         }
 
-        public HelpResult GetDefault()
+        public HelpResult ForAllCommands()
             => new HelpResult
             {
                 Title = _lang.GetPhrase(PhraseKey.USER_EMBED_HELP_TITLE.ToString()),
                 Sections = _commandService.Modules.Select(x => GetSection(x))
             };
 
-        public HelpResult Search(string input)
+        public HelpResult FromInput(string input)
             => new HelpResult()
             {
                 Sections = GetCommands(input).Select(x => GetSection(x))
             };
-
-        public async Task ShowDefaultHelpAsync(ISocketMessageChannel channel)
-            => await channel.SendMessageAsync(embed: EmbedConstructor.CreateHelpEmbed(GetDefault()));
-
-        public async Task ShowCommandHelpAsync(ISocketMessageChannel channel, string input)
-            => await channel.SendMessageAsync(embed: EmbedConstructor.CreateHelpEmbed(Search(input)));
 
         private IEnumerable<CommandInfo> GetCommands(string input)
         {
@@ -74,9 +65,13 @@ namespace Miunie.Discord
             => new HelpSection(module.Name, GetModuleCommandBlocks(module));
 
         private string GetModuleCommandBlocks(ModuleInfo module)
-            => string.Join(" ", module.Commands
+        {
+            var commands = module.Commands
                 .GroupBy(x => x.Name)
-                .Select(x => $"`{x.Key}`"));
+                .Select(x => $"`{x.Key}`");
+
+            return string.Join(" ", commands);
+        }
 
         private HelpSection GetSection(CommandInfo command)
         {
@@ -98,15 +93,37 @@ namespace Miunie.Discord
             => $"{command.Name} {GetSectionParameters(command)}";
 
         private string GetSectionParameters(CommandInfo command)
-            => string.Join(" ", command.Parameters
+        {
+            var parameters = command.Parameters
                 .OrderBy(x => x.IsOptional)
-                .Select(x => x.IsOptional ? $"[{x.Name}]" : $"<{x.Name}>"));
+                .Select(x => GetParameterBlock(x));
+
+            return string.Join(" ", parameters);
+        }
+
+        private string GetParameterBlock(ParameterInfo parameter)
+            => parameter.IsOptional ? $"[{parameter.Name}]" : $"<{parameter.Name}>";
 
         private string GetExamples(CommandInfo command)
-            => command.FindAttribute<ExamplesAttribute>()?.Examples
-                .StringJoinOrDefault(x => $"`{x}`", ", ", _lang.GetPhrase(PhraseKey.HELP_EXAMPLE_EMPTY.ToString()));
+        {
+            var examples = command.FindAttribute<ExamplesAttribute>()?.Examples;
+
+            if (!examples?.Any() ?? true)
+            {
+                return _lang.GetPhrase(PhraseKey.HELP_EXAMPLE_EMPTY.ToString());
+            }
+
+            return string.Join(", ", examples.Select(x => $"`{x}`"));
+        }
 
         private string GetSummary(CommandInfo command)
-            => command.Summary.ValueOrDefault(_lang.GetPhrase(PhraseKey.HELP_SUMMARY_EMPTY.ToString()));
+        {
+            if (string.IsNullOrWhiteSpace(command.Summary))
+            {
+                return _lang.GetPhrase(PhraseKey.HELP_SUMMARY_EMPTY.ToString());
+            }
+
+            return command.Summary;
+        }
     }
 }

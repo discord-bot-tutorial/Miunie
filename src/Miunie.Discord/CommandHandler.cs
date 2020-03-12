@@ -18,7 +18,6 @@ using Discord.WebSocket;
 using Miunie.Core.Configuration;
 using Miunie.Core.Entities.Discord;
 using Miunie.Core.Logging;
-using Miunie.Core.Providers;
 using Miunie.Discord.Convertors;
 using Miunie.Discord.TypeReaders;
 using System;
@@ -36,10 +35,10 @@ namespace Miunie.Discord
         private readonly EntityConvertor _convertor;
         private readonly IBotConfiguration _botConfig;
 
-        public CommandHandler(IDiscord discord, IServiceProvider services, ILogWriter logger, EntityConvertor convertor, IBotConfiguration botConfig)
+        public CommandHandler(IDiscord discord, CommandService commandService, IServiceProvider services, ILogWriter logger, EntityConvertor convertor, IBotConfiguration botConfig)
         {
             _discord = discord;
-            _commandService = new CommandService();
+            _commandService = commandService;
             _services = services;
             _logger = logger;
             _convertor = convertor;
@@ -53,9 +52,6 @@ namespace Miunie.Discord
             _discord.Client.MessageReceived += HandleCommandAsync;
             _ = await _commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), _services);
         }
-
-        public HelpCommandProvider GetHelpProvider(ILanguageProvider lang)
-            => new HelpCommandProvider(_commandService, lang);
 
         private async Task HandleCommandAsync(SocketMessage s)
         {
