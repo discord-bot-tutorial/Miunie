@@ -1,5 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Rules for Miunie" Description="These rules apply to all Miunie application projects." ToolsVersion="16.0">
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1000" Action="Error" />
+    <Rule Id="CA1002" Action="Error" />
+    <Rule Id="CA1003" Action="Error" />
+    <Rule Id="CA1005" Action="Error" />
+    <Rule Id="CA1008" Action="Warning" />
+    <Rule Id="CA1009" Action="Error" />
+    <Rule Id="CA1012" Action="Error" />
+    <Rule Id="CA1019" Action="Error" />
+    <Rule Id="CA1021" Action="Error" />
+    <Rule Id="CA1023" Action="Error" />
+    <Rule Id="CA1024" Action="Error" />
+    <Rule Id="CA1025" Action="Error" />
+    <Rule Id="CA1030" Action="Error" />
+    <Rule Id="CA1031" Action="Warning" />
+    <Rule Id="CA1035" Action="Error" />
+    <Rule Id="CA1040" Action="Error" />
+    <Rule Id="CA1043" Action="Error" />
+    <Rule Id="CA1044" Action="Warning" />
+    <Rule Id="CA1045" Action="Warning" />
+    <Rule Id="CA1050" Action="Error" />
+    <Rule Id="CA1051" Action="Error" />
+    <Rule Id="CA1052" Action="Error" />
+    <Rule Id="CA1053" Action="Error" />
+    <Rule Id="CA1054" Action="Error" />
+    <Rule Id="CA1055" Action="Error" />
+    <Rule Id="CA1056" Action="Error" />
+    <Rule Id="CA1064" Action="Error" />
+    <Rule Id="CA1065" Action="Warning" />
+    <Rule Id="CA1302" Action="Info" />
+    <Rule Id="CA1303" Action="Info" />
+    <Rule Id="CA1501" Action="Error" />
+    <Rule Id="CA1502" Action="Warning" />
+    <Rule Id="CA1505" Action="Warning" />
+    <Rule Id="CA1506" Action="Warning" />
+    <Rule Id="CA1702" Action="Error" />
+    <Rule Id="CA1703" Action="Error" />
+    <Rule Id="CA1704" Action="Error" />
+    <Rule Id="CA1709" Action="Error" />
+    <Rule Id="CA1716" Action="Error" />
+    <Rule Id="CA1717" Action="Error" />
+    <Rule Id="CA1720" Action="Error" />
+    <Rule Id="CA1726" Action="Error" />
+    <Rule Id="CA1800" Action="Error" />
+    <Rule Id="CA1801" Action="Error" />
+    <Rule Id="CA1802" Action="Error" />
+    <Rule Id="CA1811" Action="Error" />
+    <Rule Id="CA1812" Action="Error" />
+    <Rule Id="CA1813" Action="Error" />
+    <Rule Id="CA1814" Action="Error" />
+    <Rule Id="CA1819" Action="Error" />
+    <Rule Id="CA1822" Action="Error" />
+    <Rule Id="CA1823" Action="Error" />
+    <Rule Id="CA2111" Action="Error" />
+    <Rule Id="CA2211" Action="Error" />
+    <Rule Id="CA2223" Action="Error" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.NativeCodeAnalysis" RuleNamespace="Microsoft.Rules.Native">
     <Rule Id="C26438" Action="Error" />
   </Rules>
