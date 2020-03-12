@@ -21,7 +21,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miunie.LiteDbStorage", "Miu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miunie.WindowsApp", "Miunie.WindowsApp\Miunie.WindowsApp.csproj", "{1850BE21-FA48-4E67-8649-A39BAE6947A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miunie.Avalonia", "Miunie.Avalonia\Miunie.Avalonia.csproj", "{FEC99E1A-1CB3-4FEE-886E-12D7AA132564}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miunie.Avalonia", "Miunie.Avalonia\Miunie.Avalonia.csproj", "{FEC99E1A-1CB3-4FEE-886E-12D7AA132564}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15F7626E-266E-4E85-947C-37DBBDD8AED0}"
+	ProjectSection(SolutionItems) = preProject
+		.ruleset = .ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
