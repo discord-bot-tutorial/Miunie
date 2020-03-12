@@ -28,6 +28,7 @@ namespace Miunie.ConsoleApp
         private static MiunieBot _miunie;
         private static ConfigManager _configManager;
         private static ConfigurationFileEditor _editor;
+        private static ServerMenu _serverMenu;
 
         public static void DisplayMenu()
         {
@@ -49,14 +50,17 @@ namespace Miunie.ConsoleApp
 
         private static async Task Main(string[] args)
         {
+            Console.Title = "Miunie";
             _miunie = ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider);
 
             if (args.Contains("-headless")) { await RunHeadless(args); }
 
+            _serverMenu = new ServerMenu(_miunie);
+
             _configManager = InversionOfControl.Provider.GetRequiredService<ConfigManager>();
             _editor = InversionOfControl.Provider.GetRequiredService<ConfigurationFileEditor>();
             _miunie.MiunieDiscord.ConnectionChanged += MiunieOnConnectionStateChanged;
-            HandleInput();
+            await HandleInput();
         }
 
         private static async Task RunHeadless(string[] args)
@@ -80,7 +84,7 @@ namespace Miunie.ConsoleApp
             DrawMiunieState();
         }
 
-        private static void HandleInput()
+        private static async Task HandleInput()
         {
             while (true)
             {
@@ -141,6 +145,21 @@ namespace Miunie.ConsoleApp
                             break;
                         }
 
+                    case 4:
+                        {
+                            if (_miunie.MiunieDiscord.ConnectionState == ConnectionState.CONNECTED)
+                            {
+                                await _serverMenu.ServerMenuAsync();
+                            }
+                            else
+                            {
+                                Console.WriteLine(ConsoleStrings.BOT_IS_NOT_RUNNING);
+                                AnyKeyToContinue();
+                            }
+
+                            break;
+                        }
+
                     default:
                         {
                             Console.WriteLine(ConsoleStrings.UNKNOWN_OPTION_SELECTED);
@@ -161,7 +180,7 @@ namespace Miunie.ConsoleApp
         private static void AnyKeyToContinue()
         {
             Console.WriteLine(ConsoleStrings.ANY_KEY_TO_CONTINUE);
-            _ = Console.ReadKey();
+            _ = Console.ReadKey(true);
         }
 
         private static void DrawMiunieState()
