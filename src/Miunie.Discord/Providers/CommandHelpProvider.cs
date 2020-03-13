@@ -108,7 +108,7 @@ namespace Miunie.Discord
         {
             var examples = command.FindAttribute<ExamplesAttribute>()?.Examples;
 
-            if (!examples?.Any() ?? true)
+            if (examples is null || !examples.Any())
             {
                 return _lang.GetPhrase(PhraseKey.HELP_EXAMPLE_EMPTY.ToString());
             }
