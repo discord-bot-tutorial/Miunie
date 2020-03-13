@@ -14,14 +14,15 @@
 //  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
 
 using Discord.WebSocket;
-using Miunie.Core;
 using Miunie.Core.Discord;
 using Miunie.Core.Entities;
 using Miunie.Core.Entities.Discord;
+using Miunie.Core.Json;
 using Miunie.Core.Logging;
 using Miunie.Core.Providers;
 using Miunie.Discord.Embeds;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Miunie.Discord.Adapters
@@ -31,12 +32,14 @@ namespace Miunie.Discord.Adapters
         private readonly IDiscord _discord;
         private readonly ILanguageProvider _lang;
         private readonly ILogWriter _log;
+        private readonly IJsonParser _jsonParser;
 
-        public DiscordMessagesAdapter(IDiscord discord, ILanguageProvider lang, ILogWriter log)
+        public DiscordMessagesAdapter(IDiscord discord, ILanguageProvider lang, ILogWriter log, IJsonParser jsonParser)
         {
             _discord = discord;
             _lang = lang;
             _log = log;
+            _jsonParser = jsonParser;
         }
 
         public async Task SendMessageAsync(MiunieChannel mc, IEnumerable<ReputationEntry> repEntries, int index)
@@ -78,6 +81,28 @@ namespace Miunie.Discord.Adapters
             }
 
             _ = await channel.SendMessageAsync(embed: mg.ToEmbed(_lang));
+        }
+
+        public async Task SendDirectFileMessageAsync(MiunieUser mu, PhraseKey phraseKey, params object[] parameters)
+        {
+            var dmChannel = await _discord.Client.GetUser(mu.UserId).GetOrCreateDMChannelAsync() as SocketDMChannel;
+            var msg = _lang.GetPhrase(phraseKey.ToString(), parameters);
+            var json = _jsonParser.ConvertToJson(mu);
+
+            using (var fileStream = GenerateStreamFromString(json))
+            {
+                _ = await dmChannel.SendFileAsync(fileStream, $"{mu.Name}.json", msg);
+            }
+        }
+
+        public Stream GenerateStreamFromString(string s)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
 
         private void LogSocketTextChannelCastFailed()
