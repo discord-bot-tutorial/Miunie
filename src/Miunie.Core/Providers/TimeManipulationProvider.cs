@@ -29,7 +29,8 @@ namespace Miunie.Core.Providers
 
             timeframe = timeframe.Trim().ToLower();
 
-            return timeframe switch {
+            return timeframe switch
+            {
                 var tframe when
                     tframe == "hours" || tframe == "hour" || tframe == "hrs" || tframe == "hr"
                     => new TimeSpan(units, 0, 0),
