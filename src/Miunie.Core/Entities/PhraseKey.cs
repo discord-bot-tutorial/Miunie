@@ -23,6 +23,7 @@ namespace Miunie.Core.Entities
         SHOW_REMOTE_REPO,
         USER_EMBED_TITLE,
         USER_EMBED_NAME_TITLE,
+        USER_EMBED_HELP_TITLE,
         USER_EMBED_IS_BOT,
         USER_EMBED_IS_HUMAN,
         USER_EMBED_REALNESS_TITLE,
@@ -54,7 +55,11 @@ namespace Miunie.Core.Entities
         INCORRECT_VERB,
         REPUTATION_TAKEN_BOT,
         REPUTATION_GIVEN_BOT,
-        GPL3_NOTICE,
-        USER_PRIVACY_FILE_MESSAGE
+        USER_PRIVACY_FILE_MESSAGE,
+        HELP_EXAMPLE_EMPTY,
+        HELP_EXAMPLE_TITLE,
+        HELP_SUMMARY_EMPTY,
+        HELP_SUMMARY_TITLE,
+        GPL3_NOTICE
     }
 }
