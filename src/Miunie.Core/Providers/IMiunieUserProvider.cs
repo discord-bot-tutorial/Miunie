@@ -24,6 +24,8 @@ namespace Miunie.Core.Providers
 
         void StoreUser(MiunieUser u);
 
+        void RemoveUser(MiunieUser u);
+
         IEnumerable<MiunieUser> GetAllUsers();
     }
 }

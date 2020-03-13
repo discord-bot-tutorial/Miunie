@@ -60,6 +60,8 @@ namespace Miunie.Core.Entities
         HELP_EXAMPLE_TITLE,
         HELP_SUMMARY_EMPTY,
         HELP_SUMMARY_TITLE,
-        GPL3_NOTICE
+        GPL3_NOTICE,
+        USER_PRIVACY_DATA_FILE,
+        USER_PRIVACY_DATA_REMOVED
     }
 }

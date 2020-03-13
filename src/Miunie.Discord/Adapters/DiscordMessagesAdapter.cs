@@ -89,10 +89,8 @@ namespace Miunie.Discord.Adapters
             var msg = _lang.GetPhrase(phraseKey.ToString(), parameters);
             var json = _jsonParser.ConvertToJson(mu);
 
-            using (var fileStream = GenerateStreamFromString(json))
-            {
-                _ = await dmChannel.SendFileAsync(fileStream, $"{mu.Name}.json", msg);
-            }
+            using var fileStream = GenerateStreamFromString(json);
+            _ = await dmChannel.SendFileAsync(fileStream, $"{mu.Name}.json", msg);
         }
 
         public Stream GenerateStreamFromString(string s)

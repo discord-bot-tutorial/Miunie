@@ -504,9 +504,18 @@ namespace Miunie.Core {
         /// <summary>
         ///   Looks up a localized string similar to The file named {0}.json contains all the data Miunie knows about you. Please refer to the privacy delete command to remove your personal data from Miunie..
         /// </summary>
-        public static string USER_PRIVACY_FILE_MESSAGE {
+        public static string USER_PRIVACY_DATA_FILE {
             get {
-                return ResourceManager.GetString("USER_PRIVACY_FILE_MESSAGE", resourceCulture);
+                return ResourceManager.GetString("USER_PRIVACY_DATA_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}, your personal data has been removed from Miunie.
+        /// </summary>
+        public static string USER_PRIVACY_DATA_REMOVED {
+            get {
+                return ResourceManager.GetString("USER_PRIVACY_DATA_REMOVED", resourceCulture);
             }
         }
         

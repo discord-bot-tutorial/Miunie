@@ -32,11 +32,19 @@ namespace Miunie.Discord.CommandModules
             _service = service;
         }
 
-        [Command("privacy data")]
-        public async Task GetMyPrivacyData()
+        [Command("personal data")]
+        public async Task GetMyPersonalData()
         {
             var u = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
             await _service.OutputUserJsonDataAsync(u);
+        }
+
+        [Command("personal data remove")]
+        public async Task RemoveMyPersonalData()
+        {
+            var u = _entityConvertor.ConvertUser(Context.User as SocketGuildUser);
+            var c = _entityConvertor.ConvertChannel(Context.Channel as SocketGuildChannel);
+            await _service.RemoveUserData(u, c);
         }
     }
 }
