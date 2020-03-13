@@ -26,8 +26,8 @@ namespace Miunie.Discord.Embeds
 {
     internal static class EmbedConstructor
     {
-        private static readonly int RepLogPageSize = 10;
-        private static readonly uint MiuniePinkColor = 0xEC407A;
+        private static readonly int _repLogPageSize = 10;
+        private static readonly uint _miuniePinkColor = 0xEC407A;
 
         public static Embed CreateHelpEmbed(HelpResult result)
         {
