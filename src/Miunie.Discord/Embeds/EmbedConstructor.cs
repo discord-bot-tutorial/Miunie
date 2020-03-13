@@ -25,7 +25,7 @@ namespace Miunie.Discord.Embeds
 {
     internal static class EmbedConstructor
     {
-        private static readonly int RepLogPageSize = 10;
+        private static readonly int _repLogPageSize = 10;
 
         public static Embed CreateReputationLog(IEnumerable<ReputationEntry> entries, int index, ILanguageProvider lang)
         {
@@ -35,7 +35,7 @@ namespace Miunie.Discord.Embeds
                 .WithColor(new Color(236, 64, 122))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_REP_LOG_TITLE.ToString())),
                 index,
-                RepLogPageSize,
+                _repLogPageSize,
                 x => $"{(x.IsFromInvoker ? "**To:**" : "**From:**")} {x.TargetName} (**{FormatReputationType(x.Type)}**) {x.GivenAt:d} at {x.GivenAt:t} UTC");
 
             if (string.IsNullOrWhiteSpace(embed.Description))
