@@ -54,6 +54,7 @@ namespace Miunie.Core.Entities
         INCORRECT_VERB,
         REPUTATION_TAKEN_BOT,
         REPUTATION_GIVEN_BOT,
-        GPL3_NOTICE
+        GPL3_NOTICE,
+        USER_PRIVACY_FILE_MESSAGE
     }
 }

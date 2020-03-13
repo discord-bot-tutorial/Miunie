@@ -451,6 +451,15 @@ namespace Miunie.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file named {0}.json contains all the data Miunie knows about you. Please refer to the privacy delete command to remove your personal data from Miunie..
+        /// </summary>
+        public static string USER_PRIVACY_FILE_MESSAGE {
+            get {
+                return ResourceManager.GetString("USER_PRIVACY_FILE_MESSAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chances are good{{OR}}
         ///No looking good{{OR}}
         ///Try again later.
