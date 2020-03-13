@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -13,10 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Miunie.Discord\Miunie.Discord.csproj" />
-    <ProjectReference Include="..\Miunie.Json\Miunie.Json.csproj" />
-    <ProjectReference Include="..\Miunie.LiteDbStorage\Miunie.LiteDbStorage.csproj" />
+    <ProjectReference Include="..\Miunie.Core\Miunie.Core.csproj" />
   </ItemGroup>
+
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json">

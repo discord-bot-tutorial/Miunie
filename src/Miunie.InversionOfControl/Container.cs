@@ -18,6 +18,7 @@ using Miunie.Core.Attributes;
 using Miunie.Core.Configuration;
 using Miunie.Core.Discord;
 using Miunie.Core.Entities;
+using Miunie.Core.Json;
 using Miunie.Core.Providers;
 using Miunie.Core.Storage;
 using Miunie.Discord;
@@ -43,6 +44,7 @@ namespace Miunie.InversionOfControl
                 .AddSingleton<DiscordLogger>()
                 .AddSingleton<IBotConfiguration, BotConfiguration>()
                 .AddSingleton<IPersistentStorage, LiteDbStorage.PersistentStorage>()
+                .AddSingleton<IJsonParser, Json.JsonParser>()
                 .AddSingleton<Random>()
                 .AddSingleton<IMiunieUserProvider, MiunieUserProvider>()
                 .AddScoped<IUserReputationProvider, UserReputationProvider>()
