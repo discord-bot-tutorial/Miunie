@@ -26,12 +26,12 @@ namespace Miunie.Discord.Embeds
 {
     internal static class EmbedConstructor
     {
-        private static readonly int RepLogPageSize = 10;
-        private static readonly uint MiuniePinkColor = 0xEC407A;
+        private static readonly int _repLogPageSize = 10;
+        private static readonly uint _miuniePinkColor = 0xEC407A;
 
         public static Embed CreateHelpEmbed(HelpResult result)
         {
-            var builder = new EmbedBuilder().WithColor(MiuniePinkColor);
+            var builder = new EmbedBuilder().WithColor(_miuniePinkColor);
 
             if (!string.IsNullOrWhiteSpace(result.Title))
             {
@@ -51,10 +51,10 @@ namespace Miunie.Discord.Embeds
             var embed = Paginator.PaginateEmbed(
                 entries,
                 new EmbedBuilder()
-                .WithColor(new Color(MiuniePinkColor))
+                .WithColor(new Color(_miuniePinkColor))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_REP_LOG_TITLE.ToString())),
                 index,
-                RepLogPageSize,
+                _repLogPageSize,
                 x => $"{(x.IsFromInvoker ? "**To:**" : "**From:**")} {x.TargetName} (**{FormatReputationType(x.Type)}**) {x.GivenAt:d} at {x.GivenAt:t} UTC");
 
             if (string.IsNullOrWhiteSpace(embed.Description))
@@ -70,7 +70,7 @@ namespace Miunie.Discord.Embeds
             var realnessPhrase = lang.GetPhrase((mUser.IsBot ? PhraseKey.USER_EMBED_IS_BOT : PhraseKey.USER_EMBED_IS_HUMAN).ToString());
 
             return new EmbedBuilder()
-                .WithColor(new Color(MiuniePinkColor))
+                .WithColor(new Color(_miuniePinkColor))
                 .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_TITLE.ToString()))
                 .WithThumbnailUrl(mUser.AvatarUrl)
                 .AddField(lang.GetPhrase(PhraseKey.USER_EMBED_NAME_TITLE.ToString()), mUser.Name)
@@ -85,7 +85,7 @@ namespace Miunie.Discord.Embeds
 
         public static Embed ToEmbed(this MiunieGuild mGuild, ILanguageProvider lang)
             => new EmbedBuilder()
-                .WithColor(new Color(MiuniePinkColor))
+                .WithColor(new Color(_miuniePinkColor))
                 .WithThumbnailUrl(mGuild.IconUrl)
                 .WithTitle(lang.GetPhrase(PhraseKey.GUILD_EMBED_TITLE.ToString()))
                 .AddField(lang.GetPhrase(PhraseKey.GUILD_EMBED_NAME_TITLE.ToString()), mGuild.Name)
