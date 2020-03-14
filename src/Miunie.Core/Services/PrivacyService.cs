@@ -35,7 +35,7 @@ namespace Miunie.Core
 
         public async Task OutputUserJsonDataAsync(MiunieUser user)
         {
-            await _messages.SendDirectFileMessageAsync(user, Entities.PhraseKey.USER_PRIVACY_DATA_FILE, user.Name);
+            await _messages.SendDirectFileMessageAsync(user, Entities.PhraseKey.USER_PRIVACY_FILE_MESSAGE, user.Name);
         }
 
         public async Task RemoveUserData(MiunieUser user, MiunieChannel channel)
