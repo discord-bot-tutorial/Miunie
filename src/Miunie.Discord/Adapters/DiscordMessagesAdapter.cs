@@ -59,9 +59,7 @@ namespace Miunie.Discord.Adapters
 
         public async Task SendMessageAsync(MiunieChannel mc, MiunieUser mu)
         {
-            var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-
-            if (channel is null)
+            if (!(_discord.Client.GetChannel(mc.ChannelId) is SocketTextChannel channel))
             {
                 LogSocketTextChannelCastFailed();
                 return;
@@ -72,9 +70,7 @@ namespace Miunie.Discord.Adapters
 
         public async Task SendMessageAsync(MiunieChannel mc, MiunieGuild mg)
         {
-            var channel = _discord.Client.GetChannel(mc.ChannelId) as SocketTextChannel;
-
-            if (channel is null)
+            if (!(_discord.Client.GetChannel(mc.ChannelId) is SocketTextChannel channel))
             {
                 LogSocketTextChannelCastFailed();
                 return;
@@ -95,7 +91,7 @@ namespace Miunie.Discord.Adapters
             }
         }
 
-        public Stream GenerateStreamFromString(string s)
+        private static Stream GenerateStreamFromString(string s)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
