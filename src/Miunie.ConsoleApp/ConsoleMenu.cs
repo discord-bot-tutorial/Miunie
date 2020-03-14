@@ -29,6 +29,10 @@ namespace Miunie.ConsoleApp
 
         private int _selectedIndex;
 
+        private int _selectedPageIndex;
+
+        private int _pageSize;
+
         internal ConsoleMenu(IEnumerable<T> items, Func<T, string> formatter)
         {
             _items = items;
@@ -40,11 +44,20 @@ namespace Miunie.ConsoleApp
             _title = title;
         }
 
-        internal T Present()
+        internal T Present(int pageSize)
         {
             if (_items.Count() == 1)
             {
                 return _items.First();
+            }
+
+            if (pageSize < _items.Count())
+            {
+                _pageSize = pageSize;
+            }
+            else
+            {
+                _pageSize = _items.Count();
             }
 
             _selectedIndex = 0;
@@ -62,25 +75,55 @@ namespace Miunie.ConsoleApp
             }
             while (keyPressed.Key != ConsoleKey.Enter);
 
+            _selectedIndex = (_pageSize * _selectedPageIndex) + _selectedIndex;
             return _items.ElementAt(_selectedIndex);
         }
 
         private void HandleMovementKey(ConsoleKeyInfo keyPressed)
         {
+            if (keyPressed.Key == ConsoleKey.UpArrow)
+            {
+                if (--_selectedIndex == -1)
+                {
+                    _selectedIndex = Paginator.GroupAt(_items, _selectedPageIndex, _pageSize).Count() - 1;
+                }
+            }
+
             if (keyPressed.Key == ConsoleKey.DownArrow)
             {
-                if (++_selectedIndex == _items.Count()) { _selectedIndex = 0; }
+                if (++_selectedIndex >= Paginator.GroupAt(_items, _selectedPageIndex, _pageSize).Count())
+                {
+                    _selectedIndex = 0;
+                }
             }
-            else if (keyPressed.Key == ConsoleKey.UpArrow)
+
+            if (keyPressed.Key == ConsoleKey.LeftArrow)
             {
-                if (--_selectedIndex == -1) { _selectedIndex = _items.Count() - 1; }
+                if (_selectedPageIndex != 0)
+                {
+                    _selectedPageIndex--;
+                    _selectedIndex = 0;
+                }
+            }
+
+            if (keyPressed.Key == ConsoleKey.RightArrow)
+            {
+                if (_selectedPageIndex != Paginator.GetPageCount(_items.Count(), _pageSize) - 1)
+                {
+                    _selectedPageIndex++;
+                    _selectedIndex = 0;
+                }
             }
         }
 
         private void PrintItems()
         {
-            var items = _items.Select((item, i) => (i == _selectedIndex ? "=>" : string.Empty) + _formatter.Invoke(item));
+            var itemsInPage = Paginator.GroupAt(_items, _selectedPageIndex, _pageSize);
+            var items = itemsInPage.Select((item, i) => (i == _selectedIndex ? "=>" : string.Empty) + _formatter.Invoke(item));
             Console.WriteLine(string.Join("\n", items));
+            Console.WriteLine();
+            Console.WriteLine(Paginator.GetPageFooter(_selectedPageIndex, _items.Count(), _pageSize));
+            Console.WriteLine("\n" + ConsoleStrings.USE_ARROWKEYS);
         }
 
         private void PrintTitle()
