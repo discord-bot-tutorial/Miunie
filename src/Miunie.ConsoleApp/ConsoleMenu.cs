@@ -25,6 +25,8 @@ namespace Miunie.ConsoleApp
 
         private readonly Func<T, string> _formatter;
 
+        private readonly int _outstandingLines = 7;
+
         private string _title;
 
         private int _selectedIndex;
@@ -44,27 +46,21 @@ namespace Miunie.ConsoleApp
             _title = title;
         }
 
-        internal T Present(int pageSize)
+        internal T Present()
         {
             if (_items.Count() == 1)
             {
                 return _items.First();
             }
 
-            if (pageSize < _items.Count())
-            {
-                _pageSize = pageSize;
-            }
-            else
-            {
-                _pageSize = _items.Count();
-            }
+            SetPageSize();
 
             _selectedIndex = 0;
             ConsoleKeyInfo keyPressed;
 
             do
             {
+                SetPageSize();
                 PrintTitle();
                 PrintItems();
 
@@ -121,9 +117,7 @@ namespace Miunie.ConsoleApp
             var itemsInPage = Paginator.GroupAt(_items, _selectedPageIndex, _pageSize);
             var items = itemsInPage.Select((item, i) => (i == _selectedIndex ? "=>" : string.Empty) + _formatter.Invoke(item));
             Console.WriteLine(string.Join("\n", items));
-            Console.WriteLine();
-            Console.WriteLine(Paginator.GetPageFooter(_selectedPageIndex, _items.Count(), _pageSize));
-            Console.WriteLine("\n" + ConsoleStrings.USE_ARROWKEYS);
+            PrintMenuInfo();
         }
 
         private void PrintTitle()
@@ -132,6 +126,36 @@ namespace Miunie.ConsoleApp
             {
                 Console.WriteLine(_title);
                 Console.WriteLine();
+            }
+        }
+
+        private void PrintMenuInfo()
+        {
+            PrintToBottom(Paginator.GetPageFooter(_selectedPageIndex, _items.Count(), _pageSize) + "\n\n" + ConsoleStrings.USE_ARROWKEYS);
+        }
+
+        private void PrintToBottom(string message)
+        {
+            var prevCursorLeft = Console.CursorLeft;
+            var prevCursorTop = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.WindowHeight - 4);
+            Console.Write(message);
+            Console.SetCursorPosition(prevCursorLeft, prevCursorTop);
+        }
+
+        private void SetPageSize()
+        {
+            _pageSize = Console.WindowHeight;
+            _pageSize -= _outstandingLines;
+
+            if (_pageSize < 4)
+            {
+                _pageSize = 4;
+            }
+
+            if (_pageSize > _items.Count())
+            {
+                _pageSize = _items.Count();
             }
         }
     }

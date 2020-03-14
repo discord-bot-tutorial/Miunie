@@ -146,7 +146,7 @@ namespace Miunie.ConsoleApp
             var guilds = _miunie.Impersonation.GetAvailableGuilds();
             var menu = new ConsoleMenu<GuildView>(guilds, g => g.Name);
             menu.SetTitle(ConsoleStrings.SELECT_GUILD);
-            _currentGuild = menu.Present(5);
+            _currentGuild = menu.Present();
         }
 
         private async Task SelectChannelAsync()
@@ -154,7 +154,7 @@ namespace Miunie.ConsoleApp
             var channels = await _miunie.Impersonation.GetAvailableTextChannelsAsync(_currentGuild.Id);
             var menu = new ConsoleMenu<TextChannelView>(channels, c => c.Name + (c.CanSendMessages ? string.Empty : " (read only)"));
             menu.SetTitle(ConsoleStrings.SELECT_CHANNEL);
-            _currentChannel = menu.Present(5);
+            _currentChannel = menu.Present();
         }
     }
 }
