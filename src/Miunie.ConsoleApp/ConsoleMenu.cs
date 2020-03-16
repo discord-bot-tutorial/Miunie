@@ -148,15 +148,7 @@ namespace Miunie.ConsoleApp
             _pageSize = Console.WindowHeight;
             _pageSize -= _outstandingLines;
 
-            if (_pageSize < 4)
-            {
-                _pageSize = 4;
-            }
-
-            if (_pageSize > _items.Count())
-            {
-                _pageSize = _items.Count();
-            }
+            _pageSize = Math.Clamp(_pageSize, 2, _items.Count());
         }
     }
 }
