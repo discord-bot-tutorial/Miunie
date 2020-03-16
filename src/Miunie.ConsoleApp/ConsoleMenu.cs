@@ -138,7 +138,13 @@ namespace Miunie.ConsoleApp
         {
             var prevCursorLeft = Console.CursorLeft;
             var prevCursorTop = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.WindowHeight - 4);
+            var lowestLine = Console.WindowHeight - 4;
+            if (lowestLine < 0)
+            {
+                lowestLine = 0;
+            }
+
+            Console.SetCursorPosition(0, lowestLine);
             Console.Write(message);
             Console.SetCursorPosition(prevCursorLeft, prevCursorTop);
         }
@@ -147,7 +153,6 @@ namespace Miunie.ConsoleApp
         {
             _pageSize = Console.WindowHeight;
             _pageSize -= _outstandingLines;
-
             if (_pageSize > _items.Count())
             {
                 _pageSize = _items.Count();
