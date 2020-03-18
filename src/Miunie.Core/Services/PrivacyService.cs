@@ -16,6 +16,7 @@
 using Miunie.Core.Attributes;
 using Miunie.Core.Discord;
 using Miunie.Core.Entities.Discord;
+using Miunie.Core.Json;
 using Miunie.Core.Providers;
 using System.Threading.Tasks;
 
@@ -26,16 +27,19 @@ namespace Miunie.Core
     {
         private readonly IDiscordMessages _messages;
         private readonly IMiunieUserProvider _users;
+        private readonly IJsonParser _jsonParser;
 
-        public PrivacyService(IDiscordMessages messages, IMiunieUserProvider users)
+        public PrivacyService(IDiscordMessages messages, IMiunieUserProvider users, IJsonParser jsonParser)
         {
             _messages = messages;
             _users = users;
+            _jsonParser = jsonParser;
         }
 
         public async Task OutputUserJsonDataAsync(MiunieUser user)
         {
-            await _messages.SendDirectFileMessageAsync(user, Entities.PhraseKey.USER_PRIVACY_FILE_MESSAGE, user.Name);
+            var userJson = _jsonParser.ConvertToJson(user);
+            await _messages.SendDirectFileMessageAsync(user, userJson, Entities.PhraseKey.USER_PRIVACY_FILE_MESSAGE, user.Name);
         }
 
         public async Task RemoveUserData(MiunieUser user, MiunieChannel channel)

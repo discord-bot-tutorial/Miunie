@@ -30,6 +30,6 @@ namespace Miunie.Core.Discord
 
         Task SendMessageAsync(MiunieChannel mc, IEnumerable<ReputationEntry> repEntries, int index);
 
-        Task SendDirectFileMessageAsync(MiunieUser mu, PhraseKey phraseKey, params object[] parameters);
+        Task SendDirectFileMessageAsync(MiunieUser mu, string userAsJson, PhraseKey phraseKey, params object[] parameters);
     }
 }

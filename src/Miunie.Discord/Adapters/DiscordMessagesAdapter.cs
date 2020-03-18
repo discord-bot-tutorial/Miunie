@@ -17,7 +17,6 @@ using Discord.WebSocket;
 using Miunie.Core.Discord;
 using Miunie.Core.Entities;
 using Miunie.Core.Entities.Discord;
-using Miunie.Core.Json;
 using Miunie.Core.Logging;
 using Miunie.Core.Providers;
 using Miunie.Discord.Embeds;
@@ -32,14 +31,12 @@ namespace Miunie.Discord.Adapters
         private readonly IDiscord _discord;
         private readonly ILanguageProvider _lang;
         private readonly ILogWriter _log;
-        private readonly IJsonParser _jsonParser;
 
-        public DiscordMessagesAdapter(IDiscord discord, ILanguageProvider lang, ILogWriter log, IJsonParser jsonParser)
+        public DiscordMessagesAdapter(IDiscord discord, ILanguageProvider lang, ILogWriter log)
         {
             _discord = discord;
             _lang = lang;
             _log = log;
-            _jsonParser = jsonParser;
         }
 
         public async Task SendMessageAsync(MiunieChannel mc, IEnumerable<ReputationEntry> repEntries, int index)
@@ -79,16 +76,13 @@ namespace Miunie.Discord.Adapters
             _ = await channel.SendMessageAsync(embed: mg.ToEmbed(_lang));
         }
 
-        public async Task SendDirectFileMessageAsync(MiunieUser mu, PhraseKey phraseKey, params object[] parameters)
+        public async Task SendDirectFileMessageAsync(MiunieUser mu, string userAsJson, PhraseKey phraseKey, params object[] parameters)
         {
-            var dmChannel = await _discord.Client.GetUser(mu.UserId).GetOrCreateDMChannelAsync() as SocketDMChannel;
+            var dmChannel = await _discord.Client.GetUser(mu.UserId).GetOrCreateDMChannelAsync();
             var msg = _lang.GetPhrase(phraseKey.ToString(), parameters);
-            var json = _jsonParser.ConvertToJson(mu);
 
-            using (var fileStream = GenerateStreamFromString(json))
-            {
-                _ = await dmChannel.SendFileAsync(fileStream, $"{mu.Name}.json", msg);
-            }
+            using var fileStream = GenerateStreamFromString(userAsJson);
+            _ = await dmChannel.SendFileAsync(fileStream, $"{mu.Name}.json", msg);
         }
 
         private static Stream GenerateStreamFromString(string s)
