@@ -27,9 +27,9 @@ namespace Miunie.Core
     {
         private readonly IDiscordMessages _messages;
         private readonly IMiunieUserProvider _users;
-        private readonly IJsonParser _jsonParser;
+        private readonly IJsonConverter _jsonParser;
 
-        public PrivacyService(IDiscordMessages messages, IMiunieUserProvider users, IJsonParser jsonParser)
+        public PrivacyService(IDiscordMessages messages, IMiunieUserProvider users, IJsonConverter jsonParser)
         {
             _messages = messages;
             _users = users;
@@ -38,7 +38,7 @@ namespace Miunie.Core
 
         public async Task OutputUserJsonDataAsync(MiunieUser user)
         {
-            var userJson = _jsonParser.ConvertToJson(user);
+            var userJson = _jsonParser.Serialize(user);
             await _messages.SendDirectFileMessageAsync(user, userJson, Entities.PhraseKey.USER_PRIVACY_FILE_MESSAGE, user.Name);
         }
 
