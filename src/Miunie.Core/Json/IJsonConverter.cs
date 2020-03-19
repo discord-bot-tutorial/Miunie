@@ -15,8 +15,8 @@
 
 namespace Miunie.Core.Json
 {
-    public interface IJsonParser
+    public interface IJsonConverter
     {
-        string ConvertToJson<T>(T obj);
+        string Serialize<T>(T obj);
     }
 }
