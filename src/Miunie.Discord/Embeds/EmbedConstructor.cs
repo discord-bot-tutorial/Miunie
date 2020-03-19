@@ -50,9 +50,19 @@ namespace Miunie.Discord.Embeds
         {
             var realnessPhrase = lang.GetPhrase((mUser.IsBot ? PhraseKey.USER_EMBED_IS_BOT : PhraseKey.USER_EMBED_IS_HUMAN).ToString());
 
+            string name;
+            if (mUser.Name.EndsWith("s"))
+            {
+                name = (mUser.Name + "\'").ToUpper();
+            }
+            else
+            {
+                name = (mUser.Name + "\'s").ToUpper();
+            }
+
             return new EmbedBuilder()
                 .WithColor(new Color(236, 64, 122))
-                .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_TITLE.ToString()))
+                .WithTitle(lang.GetPhrase(PhraseKey.USER_EMBED_TITLE.ToString(), $"{name}"))
                 .WithThumbnailUrl(mUser.AvatarUrl)
                 .AddField(lang.GetPhrase(PhraseKey.USER_EMBED_NAME_TITLE.ToString()), mUser.Name)
                 .AddField(lang.GetPhrase(PhraseKey.USER_EMBED_REALNESS_TITLE.ToString()), realnessPhrase, true)
@@ -77,15 +87,12 @@ namespace Miunie.Discord.Embeds
 
         private static string FormatReputationType(ReputationType type)
         {
-            switch (type)
+            return type switch
             {
-                case ReputationType.Plus:
-                    return "+1";
-                case ReputationType.Minus:
-                    return "-1";
-                default:
-                    throw new ArgumentException("Unknown ReputationType.");
-            }
+                ReputationType.Plus => "+1",
+                ReputationType.Minus => "-1",
+                _ => throw new ArgumentException("Unknown ReputationType."),
+            };
         }
     }
 }
