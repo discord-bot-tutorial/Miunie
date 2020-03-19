@@ -51,6 +51,7 @@ namespace Miunie.Discord.Embeds
             var realnessPhrase = lang.GetPhrase((mUser.IsBot ? PhraseKey.USER_EMBED_IS_BOT : PhraseKey.USER_EMBED_IS_HUMAN).ToString());
 
             string name;
+
             if (mUser.Name.EndsWith("s"))
             {
                 name = (mUser.Name + "\'").ToUpper();
