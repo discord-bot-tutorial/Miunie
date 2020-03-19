@@ -10,7 +10,7 @@
     DataContext="{Binding ServersPageInstance, Source={StaticResource Locator}}">
 
     <Grid>
-        <GridView ItemsSource="{Binding AvailableGuilds}" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick">
+        <GridView ItemsSource="{Binding AvailableGuilds}" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" Visibility="{Binding GuildsIsVisible}">
            <GridView.ItemTemplate>
                 <DataTemplate x:DataType="views:GuildView">
                     <StackPanel Margin="10">
@@ -20,5 +20,15 @@
                 </DataTemplate>
            </GridView.ItemTemplate>
        </GridView>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NoServersIsVisible}">
+            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE90A;" FontSize="124" Margin="25"/>
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="NO SERVERS FOUND" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
+                       Text="This is weird... It doesn't appear that you have access to any servers, or there might be a bit of misconfiguration." 
+                       TextAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" 
+                       Margin="50 15" />
+        </StackPanel>
     </Grid>
 </Page>
