@@ -76,10 +76,10 @@ namespace Miunie.Discord.Adapters
             _ = await channel.SendMessageAsync(embed: mg.ToEmbed(_lang));
         }
 
-        public async Task SendDirectFileMessageAsync(MiunieUser mu, string userAsJson, PhraseKey phraseKey, params object[] parameters)
+        public async Task SendDirectFileMessageAsync(MiunieUser mu, string userAsJson)
         {
             var dmChannel = await _discord.Client.GetUser(mu.UserId).GetOrCreateDMChannelAsync();
-            var msg = _lang.GetPhrase(phraseKey.ToString(), parameters);
+            var msg = _lang.GetPhrase(PhraseKey.USER_PRIVACY_FILE_MESSAGE.ToString(), mu.Name);
 
             using var fileStream = GenerateStreamFromString(userAsJson);
             _ = await dmChannel.SendFileAsync(fileStream, $"{mu.Name}.json", msg);
