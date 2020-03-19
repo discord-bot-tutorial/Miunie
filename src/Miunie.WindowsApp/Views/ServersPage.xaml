@@ -10,7 +10,7 @@
     DataContext="{Binding ServersPageInstance, Source={StaticResource Locator}}">
 
     <Grid>
-        <GridView ItemsSource="{Binding AvailableGuilds}" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" Visibility="{Binding GuildsIsVisible}">
+        <GridView ItemsSource="{Binding AvailableGuilds}" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" Visibility="{Binding ContentIsVisible}">
            <GridView.ItemTemplate>
                 <DataTemplate x:DataType="views:GuildView">
                     <StackPanel Margin="10">
@@ -20,7 +20,7 @@
                 </DataTemplate>
            </GridView.ItemTemplate>
        </GridView>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NoServersIsVisible}">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NoContentIsVisible}">
             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE90A;" FontSize="124" Margin="25"/>
             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="NO SERVERS FOUND" VerticalAlignment="Center" HorizontalAlignment="Center"  />
             <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 

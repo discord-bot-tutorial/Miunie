@@ -25,6 +25,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 
 namespace Miunie.WindowsApp.ViewModels
 {
@@ -87,6 +88,14 @@ namespace Miunie.WindowsApp.ViewModels
                 RaisePropertyChanged(nameof(MessageText));
             }
         }
+
+        public Visibility ContentIsVisible => Channels.Count() > 0
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+        public Visibility NoContentIsVisible => Channels.Count() <= 0
+            ? Visibility.Visible
+            : Visibility.Collapsed;
 
         public bool IsMessageTextboxEnabled => _selectedChannel?.CanSendMessages ?? false;
 

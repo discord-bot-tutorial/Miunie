@@ -33,11 +33,11 @@ namespace Miunie.WindowsApp.ViewModels
 
         public IEnumerable<GuildView> AvailableGuilds => _miunie.Impersonation.GetAvailableGuilds();
 
-        public Visibility GuildsIsVisible => AvailableGuilds.Count() > 0
+        public Visibility ContentIsVisible => AvailableGuilds.Count() > 0
             ? Visibility.Visible
             : Visibility.Collapsed;
 
-        public Visibility NoServersIsVisible => AvailableGuilds.Count() <= 0
+        public Visibility NoContentIsVisible => AvailableGuilds.Count() <= 0
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
