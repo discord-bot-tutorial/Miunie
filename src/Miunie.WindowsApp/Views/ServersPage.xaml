@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:Miunie.Core.Entities.Views"
+    xmlns:c="using:Miunie.WindowsApp.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding ServersPageInstance, Source={StaticResource Locator}}">
@@ -20,15 +21,6 @@
                 </DataTemplate>
            </GridView.ItemTemplate>
        </GridView>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NoContentIsVisible}">
-            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE90A;" FontSize="124" Margin="25"/>
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="NO SERVERS FOUND" VerticalAlignment="Center" HorizontalAlignment="Center"  />
-            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
-                       Text="This is weird... It doesn't appear that you have access to any servers, or there might be a bit of misconfiguration." 
-                       TextAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Center" 
-                       Margin="50 15" />
-        </StackPanel>
+        <c:NoContentControl Visibility="{Binding NoContentIsVisible}" Icon="&#xE90A;" Title="NO SERVERS FOUND" Description="This is weird... It doesn't appear that you have access to any servers, or there might be a bit of misconfiguration." />
     </Grid>
 </Page>

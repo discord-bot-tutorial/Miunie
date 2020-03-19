@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:w="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:u="using:Miunie.WindowsApp.Utilities"
+    xmlns:c="using:Miunie.WindowsApp.Controls"
     xmlns:views="using:Miunie.Core.Entities.Views"
     xmlns:models="using:Miunie.WindowsApp.Models"
     mc:Ignorable="d"
@@ -64,15 +65,6 @@
                 <Button Grid.Row="1" Grid.Column="1" Command="{Binding SendMessageCommand}" CommandParameter="{Binding ElementName=MessageTextBox, Path=Text, RelativeSource={RelativeSource Mode=TemplatedParent}}" FontFamily="Segoe MDL2 Assets" Content="&#xE725;" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,5,5,10"/>
             </Grid>
         </Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding NoContentIsVisible}">
-            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE90A;" FontSize="124" Margin="25"/>
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="NO CHANNELS FOUND" VerticalAlignment="Center" HorizontalAlignment="Center"  />
-            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" 
-                       Text="This is weird... It doesn't appear that you have access to any channels, or there might be a bit of misconfiguration." 
-                       TextAlignment="Center" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Center" 
-                       Margin="50 15" />
-        </StackPanel>
+        <c:NoContentControl Visibility="{Binding NoContentIsVisible}" Icon="&#xE90A;" Title="NO CHANNELS FOUND" Description="This is weird... It doesn't appear that you have access to any channels, or there might be a bit of misconfiguration." />
     </Grid>
 </Page>
