@@ -18,9 +18,9 @@ using Newtonsoft.Json;
 
 namespace Miunie.Json
 {
-    public class JsonParser : IJsonParser
+    public class JsonConverter : IJsonConverter
     {
-        public string ConvertToJson<T>(T obj)
+        public string Serialize<T>(T obj)
         {
             return JsonConvert.SerializeObject(obj);
         }
