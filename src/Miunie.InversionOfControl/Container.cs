@@ -44,7 +44,7 @@ namespace Miunie.InversionOfControl
                 .AddSingleton<DiscordLogger>()
                 .AddSingleton<IBotConfiguration, BotConfiguration>()
                 .AddSingleton<IPersistentStorage, LiteDbStorage.PersistentStorage>()
-                .AddSingleton<IJsonParser, Json.JsonParser>()
+                .AddSingleton<IJsonConverter, Json.JsonConverter>()
                 .AddSingleton<Random>()
                 .AddSingleton<IMiunieUserProvider, MiunieUserProvider>()
                 .AddScoped<IUserReputationProvider, UserReputationProvider>()
