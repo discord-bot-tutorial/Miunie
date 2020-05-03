@@ -14,11 +14,11 @@
 //  along with Miunie. If not, see <https://www.gnu.org/licenses/>.
 
 using Microsoft.Extensions.DependencyInjection;
+using Miunie.ConsoleApp.Arguments;
 using Miunie.ConsoleApp.Configuration;
 using Miunie.Core;
 using Miunie.Core.Entities;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Miunie.ConsoleApp
@@ -29,6 +29,7 @@ namespace Miunie.ConsoleApp
         private static ConfigManager _configManager;
         private static ConfigurationFileEditor _editor;
         private static ServerMenu _serverMenu;
+        private static RuntimeArguments _args;
 
         public static void DisplayMenu()
         {
@@ -50,10 +51,11 @@ namespace Miunie.ConsoleApp
 
         private static async Task Main(string[] args)
         {
+            _args = ArgumentsParser.Parse(args);
             Console.Title = "Miunie";
             _miunie = ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider);
 
-            if (args.Contains("-headless")) { await RunHeadless(args); }
+            if (_args.Headless) { await RunHeadless(); }
 
             _serverMenu = new ServerMenu(_miunie);
 
@@ -63,26 +65,20 @@ namespace Miunie.ConsoleApp
             await HandleInput();
         }
 
-        private static async Task RunHeadless(string[] args)
+        private static async Task RunHeadless()
         {
-            if (!args.Any(arg => arg.StartsWith("-token=")))
+            if (!_args.HasToken)
             {
                 Console.WriteLine(ConsoleStrings.HEADLESS_REQUIRES_TOKEN);
                 Environment.Exit(0);
             }
 
-            var token = args
-                .First(arg => arg.StartsWith("-token="))
-                .Substring(7);
-
-            _miunie.BotConfiguration.DiscordToken = token;
+            _miunie.BotConfiguration.DiscordToken = _args.Token;
             await _miunie.StartAsync();
         }
 
         private static void MiunieOnConnectionStateChanged(object sender, EventArgs e)
-        {
-            DrawMiunieState();
-        }
+            => DrawMiunieState();
 
         private static async Task HandleInput()
         {
