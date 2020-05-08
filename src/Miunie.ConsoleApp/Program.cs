@@ -50,7 +50,7 @@ namespace Miunie.ConsoleApp
 
         private static async Task Main(string[] args)
         {
-            Console.Title = "Miunie";
+            Console.Title = ConsoleStrings.BOT_NAME;
             _miunie = ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider);
 
             if (args.Contains("-headless")) { await RunHeadless(args); }
