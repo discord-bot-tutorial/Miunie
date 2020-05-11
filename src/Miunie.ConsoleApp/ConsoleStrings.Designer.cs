@@ -312,5 +312,14 @@ namespace Miunie.ConsoleApp {
                 return ResourceManager.GetString("TOKENEQUALS_FLAG", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to DiscordToken
+        /// </summary>
+        internal static string DISCORD_TOKEN {
+            get {
+                return ResourceManager.GetString("DISCORD_TOKEN", resourceCulture);
+            }
+        }
     }
 }

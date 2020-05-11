@@ -211,9 +211,10 @@ Left and right arrow to switch pages.</value>
   <data name="HEADLESS_FLAG" xml:space="preserve">
     <value>-headless</value>
   </data>
-
   <data name="TOKENEQUALS_FLAG" xml:space="preserve">
     <value>-token=</value>
   </data>
-
+  <data name="DISCORD_TOKEN" xml:space="preserve">
+    <value>DiscordToken</value>
+  </data>
 </root>

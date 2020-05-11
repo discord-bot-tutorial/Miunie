@@ -115,7 +115,7 @@ namespace Miunie.ConsoleApp
                             }
                             while (Console.ReadKey().Key != ConsoleKey.Y);
 
-                            _editor.WriteSetting("DiscordToken", token);
+                            _editor.WriteSetting(ConsoleStrings.DISCORD_TOKEN, token);
                             _editor.Save();
                             _miunie.BotConfiguration.DiscordToken = token;
                             break;
@@ -130,7 +130,7 @@ namespace Miunie.ConsoleApp
                             }
                             else if (_miunie.MiunieDiscord.ConnectionState == ConnectionState.DISCONNECTED)
                             {
-                                _miunie.BotConfiguration.DiscordToken = _configManager.GetValueFor("DiscordToken");
+                                _miunie.BotConfiguration.DiscordToken = _configManager.GetValueFor(ConsoleStrings.DISCORD_TOKEN);
                                 _miunie.BotConfiguration.CommandsEnabled = true;
                                 _ = _miunie.StartAsync();
                                 AnyKeyToContinue();
