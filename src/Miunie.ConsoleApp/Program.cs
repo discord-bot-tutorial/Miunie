@@ -65,14 +65,14 @@ namespace Miunie.ConsoleApp
 
         private static async Task RunHeadless(string[] args)
         {
-            if (!args.Any(arg => arg.StartsWith("-token=")))
+            if (!args.Any(arg => arg.StartsWith(ConsoleStrings.TOKENEQUALS_FLAG)))
             {
                 Console.WriteLine(ConsoleStrings.HEADLESS_REQUIRES_TOKEN);
                 Environment.Exit(0);
             }
 
             var token = args
-                .First(arg => arg.StartsWith("-token="))
+                .First(arg => arg.StartsWith(ConsoleStrings.TOKENEQUALS_FLAG))
                 .Substring(7);
 
             _miunie.BotConfiguration.DiscordToken = token;

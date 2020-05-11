@@ -303,5 +303,14 @@ namespace Miunie.ConsoleApp {
                 return ResourceManager.GetString("HEADLESS_FLAG", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to -token=
+        /// </summary>
+        internal static string TOKENEQUALS_FLAG {
+            get {
+                return ResourceManager.GetString("TOKENEQUALS_FLAG", resourceCulture);
+            }
+        }
     }
 }

@@ -210,5 +210,10 @@ Left and right arrow to switch pages.</value>
   </data>
   <data name="HEADLESS_FLAG" xml:space="preserve">
     <value>-headless</value>
-  </data>  
+  </data>
+
+  <data name="TOKENEQUALS_FLAG" xml:space="preserve">
+    <value>-token=</value>
+  </data>
+
 </root>
