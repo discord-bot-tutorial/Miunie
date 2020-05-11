@@ -53,7 +53,7 @@ namespace Miunie.ConsoleApp
             Console.Title = ConsoleStrings.BOT_NAME;
             _miunie = ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider);
 
-            if (args.Contains("-headless")) { await RunHeadless(args); }
+            if (args.Contains(ConsoleStrings.HEADLESS_FLAG)) { await RunHeadless(args); }
 
             _serverMenu = new ServerMenu(_miunie);
 

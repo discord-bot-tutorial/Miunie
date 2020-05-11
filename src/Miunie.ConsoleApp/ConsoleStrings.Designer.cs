@@ -294,5 +294,14 @@ namespace Miunie.ConsoleApp {
                 return ResourceManager.GetString("BOT_NAME", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to -headless
+        /// </summary>
+        internal static string HEADLESS_FLAG {
+            get {
+                return ResourceManager.GetString("HEADLESS_FLAG", resourceCulture);
+            }
+        }
     }
 }

@@ -208,4 +208,7 @@ Left and right arrow to switch pages.</value>
   <data name="BOT_NAME" xml:space="preserve">
     <value>Miunie</value>
   </data>
+  <data name="HEADLESS_FLAG" xml:space="preserve">
+    <value>-headless</value>
+  </data>  
 </root>
