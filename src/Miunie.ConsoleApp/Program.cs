@@ -51,9 +51,10 @@ namespace Miunie.ConsoleApp
 
         private static async Task Main(string[] args)
         {
-            _args = ArgumentsParser.Parse(args);
-            Console.Title = "Miunie";
+            Console.Title = ConsoleStrings.BOT_NAME;
             _miunie = ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider);
+            
+            _args = ArgumentsParser.Parse(args);
 
             if (_args.Headless) { await RunHeadless(); }
 
@@ -111,7 +112,7 @@ namespace Miunie.ConsoleApp
                             }
                             while (Console.ReadKey().Key != ConsoleKey.Y);
 
-                            _editor.WriteSetting("DiscordToken", token);
+                            _editor.WriteSetting(ConsoleStrings.DISCORD_TOKEN, token);
                             _editor.Save();
                             _miunie.BotConfiguration.DiscordToken = token;
                             break;
@@ -126,7 +127,7 @@ namespace Miunie.ConsoleApp
                             }
                             else if (_miunie.MiunieDiscord.ConnectionState == ConnectionState.DISCONNECTED)
                             {
-                                _miunie.BotConfiguration.DiscordToken = _configManager.GetValueFor("DiscordToken");
+                                _miunie.BotConfiguration.DiscordToken = _configManager.GetValueFor(ConsoleStrings.DISCORD_TOKEN);
                                 _miunie.BotConfiguration.CommandsEnabled = true;
                                 _ = _miunie.StartAsync();
                                 AnyKeyToContinue();
