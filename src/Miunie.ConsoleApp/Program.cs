@@ -53,7 +53,7 @@ namespace Miunie.ConsoleApp
         {
             Console.Title = ConsoleStrings.BOT_NAME;
             _miunie = ActivatorUtilities.CreateInstance<MiunieBot>(InversionOfControl.Provider);
-            
+
             _args = ArgumentsParser.Parse(args);
 
             if (_args.Headless) { await RunHeadless(); }

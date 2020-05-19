@@ -23,8 +23,8 @@ namespace Miunie.ConsoleApp.Arguments
         {
             return new RuntimeArguments
             {
-                Headless = args.Contains("--headless"),
-                Token = args.FirstOrDefault(arg => arg.StartsWith("--token="))?.Substring(8)
+                Headless = args.Contains(ConsoleStrings.HEADLESS_FLAG),
+                Token = args.FirstOrDefault(arg => arg.StartsWith(ConsoleStrings.TOKENEQUALS_FLAG))?.Substring(8)
             };
         }
     }
