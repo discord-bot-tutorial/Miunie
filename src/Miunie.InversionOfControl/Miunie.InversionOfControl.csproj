@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="../Miunie.Core/Miunie.Core.csproj" />
     <ProjectReference Include="../Miunie.Discord/Miunie.Discord.csproj" />
-    <ProjectReference Include="..\Miunie.Infrastructure\Miunie.Infrastructure.csproj" />
+    <ProjectReference Include="../Miunie.Infrastructure/Miunie.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
