@@ -26,6 +26,7 @@ using Miunie.Discord.Adapters;
 using Miunie.Discord.Convertors;
 using Miunie.Discord.Logging;
 using Miunie.Infrastructure.Json;
+using Miunie.Infrastructure.LiteDbStorage;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -44,7 +45,7 @@ namespace Miunie.InversionOfControl
                 .AddSingleton<IDiscordImpersonation, Impersonation>()
                 .AddSingleton<DiscordLogger>()
                 .AddSingleton<IBotConfiguration, BotConfiguration>()
-                .AddSingleton<IPersistentStorage, LiteDbStorage.PersistentStorage>()
+                .AddSingleton<IPersistentStorage, PersistentStorage>()
                 .AddSingleton<IJsonConverter, JsonConverter>()
                 .AddSingleton<Random>()
                 .AddSingleton<IMiunieUserProvider, MiunieUserProvider>()
