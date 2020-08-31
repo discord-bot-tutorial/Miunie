@@ -29,9 +29,7 @@ namespace Miunie.Tests.Commands
         {
             var botConfig = CreateBotConfigWithPrefix("MyPrefix");
             var firstStepContext = CreateInputWithMessage("Message without a prefix");
-
             var nextStep = new Mock<ICommandPipelineStep>();
-
             var step = new PreconditionCheckStep(nextStep.Object, botConfig);
 
             await step.ProcessAsync(firstStepContext);
@@ -44,9 +42,7 @@ namespace Miunie.Tests.Commands
         {
             var botConfig = CreateBotConfigWithPrefix("MyPrefix");
             var firstStepContext = CreateInputWithMessage("MyPrefix Message with a prefix");
-
             var nextStep = new Mock<ICommandPipelineStep>();
-
             var step = new PreconditionCheckStep(nextStep.Object, botConfig);
 
             await step.ProcessAsync(firstStepContext);
@@ -59,9 +55,7 @@ namespace Miunie.Tests.Commands
         {
             var botConfig = CreateBotConfigWithNoPrefix();
             var firstStepContext = CreateInputWithMessage("Any Message");
-
             var nextStep = new Mock<ICommandPipelineStep>();
-
             var step = new PreconditionCheckStep(nextStep.Object, botConfig);
 
             await step.ProcessAsync(firstStepContext);
