@@ -17,6 +17,5 @@ namespace Miunie.Core.Commands
 {
     public class MiunieCommandContext
     {
-        public string FullMessage { get; set; }
     }
 }
