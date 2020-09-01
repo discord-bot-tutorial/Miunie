@@ -109,6 +109,17 @@ namespace Miunie.Tests.Commands
             AssertTargetedCommands("command", "command 1");
         }
 
+        [Fact]
+        public async Task NoMatchingCommands_ShouldContinue_WithEmptyTargetServices()
+        {
+            SetAvailableCommandsFromStrings("command", "command 2");
+            var input = GetInputFromMessage("Normal message.");
+
+            await _serviceLocationStep.ProcessAsync(input);
+
+            AssertTargetedCommands(new string[0]);
+        }
+
         private static CommandProcessorInput GetInputFromMessage(string message)
         {
             return new CommandProcessorInput
